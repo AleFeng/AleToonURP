@@ -1,0 +1,340 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 3.ClothsCoatSleeve
+  m_Shader: {fileID: 4800000, guid: 4f14c3ce624ffe441bc92162058fe263, type: 3}
+  m_ValidKeywords:
+  - _ADDLIGHT_ON
+  - _OUTLINE_ON
+  - _OUTLINE_WIDTH_SAME
+  - _RIMLIGHT_ON
+  - _SURFACETYPE_OPAQUE
+  m_InvalidKeywords:
+  - SELFSHADOW_ON
+  - SPHEREMAP_ADD
+  - _FLOATOUTLINETYPE_NML
+  - _FLOATOUTLINETYPE_NORMAL
+  - _FLOATOUTLINEWIDTHTYPE_SAME
+  - _OUTLINE_SAME
+  - _TOGGLEEMISSIVEANIM_FIXED
+  - _TOGGLEEMISSIVEANIM_SIMPLE
+  - _TOON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: ccba7d156d1049d488066ec4c3023b43, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ff200beea5edf5b4baeaeef0451298fe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SphereCube:
+        m_Texture: {fileID: 8900000, guid: dc11fcb83eba27b478967ad9703e166d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexClipMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexEmissiveMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexHighLightMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexHighLightMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexMatCapMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexMatCapMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexOutlineTexMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexOutlineThresholdMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexRimLightMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexShade1ThresholdMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexShade2ThresholdMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexShadeThresholdMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ToonTex:
+        m_Texture: {fileID: 2800000, guid: 7c9f42194e935c74c8bbde9519fe6366, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ALPower: 0
+    - _AddLightToonCen: -0.1
+    - _AddLightToonMin: 0.5
+    - _AlphaClip: 0
+    - _AmbientToDiffuse: 5
+    - _BaseMapBlendColorIntensit: 0
+    - _BaseMapBlendColorIntensity: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _EdgeScale: 0.001
+    - _EdgeSize: 0.00064307207
+    - _EnvironmentReflections: 1
+    - _FloatAddLightIntensity: 1
+    - _FloatBaseMapExposureIntensity: 1.2
+    - _FloatBaseMapShade1ExposureIntensity: 1.05
+    - _FloatBaseMapShade2ExposureIntensity: 1
+    - _FloatBaseShade1Blur: 1
+    - _FloatBaseShade1Step: 0.5
+    - _FloatBrightShade1Blur: 0.01
+    - _FloatBrightShade1Step: 0.5
+    - _FloatBuiltInLightColorBlend: 1
+    - _FloatBuiltInLightXAxis: 1
+    - _FloatBuiltInLightYAxis: 1
+    - _FloatBuiltInLightZAxis: -1
+    - _FloatClipIntensity: 0
+    - _FloatClipTransIntensity: 0
+    - _FloatEmissiveAnimDirU: 0.5
+    - _FloatEmissiveAnimDirV: 0.5
+    - _FloatEmissiveAnimRotate: 0
+    - _FloatEmissiveAnimSpeed: 0.5
+    - _FloatEmissiveAnimUVType: 0
+    - _FloatEmissiveChangeSpeed: 0
+    - _FloatEnvLightIntensity: 2
+    - _FloatExposureIntensity: 1
+    - _FloatGIIntensity: 1
+    - _FloatGlobalExposureIntensity: 1
+    - _FloatHighLightMaskMapIntensity: 0
+    - _FloatHighLightShadowMaskIntensity: 0
+    - _FloatHighLightSize: 0
+    - _FloatMatCapBlurIntensity: 0
+    - _FloatMatCapColorBlend: 1
+    - _FloatMatCapColorBlendIntensity: 1
+    - _FloatMatCapMaskMapIntensity: 0
+    - _FloatMatCapRotate: 0
+    - _FloatMatCapShadowMaskIntensity: 0
+    - _FloatNormalMapBump: 1
+    - _FloatOutlineBaseMapBlendIntensity: 1
+    - _FloatOutlineTexMapIntensity: 1
+    - _FloatOutlineThresholdMapIntensity: 1
+    - _FloatOutlineType: 2
+    - _FloatOutlineWidth: 2
+    - _FloatOutlineWidthType: 0
+    - _FloatPointLightIntensity: 0
+    - _FloatRealtimeLightIntensity: 5
+    - _FloatRimLightInsideDistance: 0.185
+    - _FloatRimLightIntensity: 0.127
+    - _FloatRimLightMaskMapIntensity: 0
+    - _FloatRimLightShadeColorIntensity: 0.1
+    - _FloatRimLightShadeMaskIntensity: 0
+    - _FloatShade1Shade2Blur: 0.4
+    - _FloatShade1Shade2Step: 0.2
+    - _FloatShadeThresholdMapIntensity: 1
+    - _FloatShadowIntensity: 0
+    - _FloatStencilComp: 8
+    - _FloatStencilFail: 0
+    - _FloatStencilNum: 1
+    - _FloatStencilPass: 0
+    - _FloatSurfaceZWrite: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 0
+    - _GlossyReflections: 1
+    - _IntClipType: 0
+    - _IntRenderFaceType: 2
+    - _IntStencilType: 0
+    - _IntSurfaceType: 0
+    - _MainTexBlendIntensity: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _NoShadowCasting: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Revision: 2
+    - _ShadowLum: 1.5
+    - _Shininess: 0
+    - _Smoothness: 0
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _TessEdgeLength: 5
+    - _TessExtrusionAmount: 0
+    - _TessPhongStrength: 0.5
+    - _ToggleAddLight: 1
+    - _ToggleAddLightHighLight: 1
+    - _ToggleBuiltInLight: 0
+    - _ToggleBuiltInLightColor: 0
+    - _ToggleClipTransBaseMapAlpha: 0
+    - _ToggleEmissive: 0
+    - _ToggleEmissiveAnim: 0
+    - _ToggleEmissiveAnimPingpong: 0
+    - _ToggleEmissiveChangeColor: 0
+    - _ToggleEmissiveViewChangeColor: 0
+    - _ToggleGlobalLightBaseMap: 1
+    - _ToggleGlobalLightBaseShade1: 1
+    - _ToggleGlobalLightBaseShade2: 1
+    - _ToggleGlobalLightHighLight: 1
+    - _ToggleGlobalLightMatCapMap: 1
+    - _ToggleGlobalLightOutline: 1
+    - _ToggleGlobalLightRimLight: 1
+    - _ToggleGlobalLightRimLightShade: 1
+    - _ToggleHighLight: 0
+    - _ToggleHighLightShadowMask: 0
+    - _ToggleHighLightSoft: 0
+    - _ToggleLightHorLockBaseMap: 0
+    - _ToggleLightHorLockHighLight: 0
+    - _ToggleLightHorLockRimLight: 0
+    - _ToggleMatCap: 0
+    - _ToggleMatCapShadowMask: 0
+    - _ToggleNormalMapOnBaseMap: 0
+    - _ToggleNormalMapOnEmissive: 0
+    - _ToggleNormalMapOnHighLight: 0
+    - _ToggleNormalMapOnMatCap: 0
+    - _ToggleNormalMapOnRimLight: 0
+    - _ToggleOutlineBaseMapBlend: 1
+    - _ToggleOutlineTexMap: 0
+    - _ToggleOutlineThresholdMap: 0
+    - _TogglePointLightHighLight: 1
+    - _ToggleRenderQueueAuto: 1
+    - _ToggleRimLight: 1
+    - _ToggleRimLightHard: 0
+    - _ToggleRimLightShadeColor: 0
+    - _ToggleRimLightShadeColorHard: 0
+    - _ToggleRimLightShadeMask: 0
+    - _ToggleShadeThresholdMap: 0
+    - _ToggleShadowCaster: 1
+    - _ToggleShadowReceive: 1
+    - _UVSec: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Ambient: {r: 0.501961, g: 0.501961, b: 0.501961, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorBaseMapBlendColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorBuiltInLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorEmissiveChangeColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorEmissiveMapColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorEmissiveViewChangeColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorHighLightColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorMatCapMapColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorOutlineColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+    - _ColorRimLightColor: {r: 1, g: 1, b: 1, a: 0.3137255}
+    - _ColorRimLightShadeColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorShade1Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    - _ColorShade2Color: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+    - _EdgeColor: {r: 0.45, g: 0.2, b: 0.3, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 0}
+    - _FloatRimLightShadeColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Specular: {r: 0, g: 0, b: 0, a: 0}
+    - _ToonTone: {r: 1, g: 0.5, b: 0.5, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &9164054615063775499
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
