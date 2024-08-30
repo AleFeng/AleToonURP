@@ -63,8 +63,8 @@
 ### **1.UberShader**
 ---
 使用宏定义分支预处理的方式来制作UberShader。\
-根据材质球上的效果开关来生成对应的Shader变体。\
-提高Shader复用率与易用性，降低分支带来的性能开销。\
+根据材质球上的效果开关来`自动生成`对应的Shader变体。\
+提高Shader的易用性，使美术能够更加`简单高效`地制作材质球。\
 <img src="Document~/Image/Macro Def_0.jpg">
 
 ### **2.SRP-Batcher**

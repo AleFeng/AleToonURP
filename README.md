@@ -58,18 +58,18 @@ NPRスタイルの水面のレンダリングを実現しました。\
 
 ## 【高效的性能表现】
 ---
-使用高效的方式编写Shader，并对其进行性能优化。支持SRP-Batcher、GPU-Instance等合批渲染方式。
+効率な方法でシェーダーを開発し、性能の最適化も行いました。SRP-BatcherやGPU-Instance等のバッチレンダリング方式もできます。
 
 ### **1.UberShader**
 ---
-使用宏定义分支预处理的方式来制作UberShader。\
-根据材质球上的效果开关来生成对应的Shader变体。\
-提高Shader复用率与易用性，降低分支带来的性能开销。\
+前処理マクロの方法を使用し、Uberシェーダーを開発しました。\
+マテリアルの効果の開閉に基づいて、対応なシェーダーの変体を`自動的に生成`します。\
+シェーダーの便利さを向上し、アーティストが`簡単で効率的`にマテリアルを作成できるようになりました。\
 <img src="Document~/Image/Macro Def_0.jpg">
 
 ### **2.SRP-Batcher**
 ---
-支持Unity的SRP-Batcher功能，提高CPU端处理DrawCall预设置工作的效率。\
+UnityのSRP-Batcher機能もでき、CPU側でDrawCallのプリセットの効率を向上させます。\
 <img width = "1000" src="Document~/Image/SRPBatcher_0.jpg">
 
 <br/>
@@ -77,115 +77,117 @@ NPRスタイルの水面のレンダリングを実現しました。\
 
 ## 【丰富的渲染功能】
 ---
-实现了大多数卡通渲染的主流效果，并编写了自定义的ShaderGUI。使创作时的工作流程变得`清晰且高效`。\
-你能够根据折叠界面的顺序`逐步设置`材质球的各项`渲染功能`。按照美术效果的需求`单独`设置`打开`或`关闭`。
+ほとんどの二次元スタイルのレンダリング効果を実現し、カスタムのシェーダーGUIも開発しました。
+マテリアルを制作する時のワークフローを`確実で効率的`になりました。\
+インタフェースの折りたたみバーの順番を基づいて、マテリアルのレンダリング機能を`逐次設定する`こともできます。\
+美術効果の要望を応じて、`個別`に`開ける`又は`閉める`こともできます。\
 
 <img src="Document~/Image/ShaderGUI_0.1_All.jpg">
 
 <br/>
 <br/>
 
-### **1.基础设置 Basic**
+### **1.基本設定 Basic**
 ---
 <img src="Document~/Image/ShaderGUI_1.0_Basic.jpg">
 
-#### 1.1.渲染队列 Render Queue
+#### 1.1.レンダリング隊列 Render Queue
 <img src="Document~/Image/ShaderGUI_1.1_RenderQueue.jpg">
 
-#### 1.2.裁剪 Clip
+#### 1.2.裁断 Clip
 <img src="Document~/Image/ShaderGUI_1.2_Clip.jpg">
 
-#### 1.3.模板测试 Stencil
+#### 1.3.ステンシルテスト　Stencil
 <img src="Document~/Image/ShaderGUI_1.3_Stencil.jpg">
 
 <br/>
 <br/>
 
-### **2.基础贴图 BaseMap**
+### **2.基本マップ BaseMap**
 ---
 <img src="Document~/Image/ShaderGUI_2.0_BaseMap.jpg">
 
-#### 2.1.暗部阈值贴图 Shade ThresholdMap
+#### 2.1.暗部の閾値マップ Shade ThresholdMap
 <img src="Document~/Image/ShaderGUI_2.1_ShadeThreshold.jpg">
 
 <br/>
 <br/>
 
-### **3.法线贴图 NormalMap**
+### **3.法線マップ NormalMap**
 ---
 <img src="Document~/Image/ShaderGUI_3.0_NormalMap.jpg">
 
 <br/>
 <br/>
 
-### **4.外描边 Outline**
+### **4.外側の描線 Outline**
 ---
 <img src="Document~/Image/ShaderGUI_4.0_Outline.jpg">
 
-#### 4.1.纹理贴图 TexMap
+#### 4.1.描線の肌理マップ TexMap
 <img src="Document~/Image/ShaderGUI_4.1_OutlineTexMap.jpg">
 
 <br/>
 <br/>
 
-### **5.边缘光 RimLight**
+### **5.縁辺の光 RimLight**
 ---
 <img src="Document~/Image/ShaderGUI_5.0_RimLight.jpg">
 
-#### 5.1.暗部遮罩 ShadeMask
+#### 5.1.暗部のマスクマップ ShadeMask
 <img src="Document~/Image/ShaderGUI_5.1_RimLightShadeMask.jpg">
 
-#### 5.2.遮罩贴图 MaskMap
+#### 5.2.マスクマップ MaskMap
 <img src="Document~/Image/ShaderGUI_5.2_RimLightMaskMap.jpg">
 
 <br/>
 <br/>
 
-### **6.高光 HighLight**
+### **6.ハイライト HighLight**
 ---
 <img src="Document~/Image/ShaderGUI_6.0_HighLight.jpg">
 
-#### 6.1.遮罩贴图 MaskMap
+#### 6.1.マスクマップ MaskMap
 <img src="Document~/Image/ShaderGUI_6.1_HighLightMaskMap.jpg">
 
 <br/>
 <br/>
 
-### **7.自发光 Emissive**
+### **7.発光 Emissive**
 ---
 <img src="Document~/Image/ShaderGUI_7.0_Emissive.jpg">
 
-#### 7.1.自发光动画 Emissive Animation
+#### 7.1.発光のアニメーション Emissive Animation
 <img src="Document~/Image/ShaderGUI_7.1_EmissiveAnim.jpg">
 
 <br/>
 <br/>
 
-### **8.材质捕获 MatCap**
+### **8.マテリアルキャプチャ MatCap**
 ---
 <img src="Document~/Image/ShaderGUI_8.0_MatCap.jpg">
 
-#### 8.1.遮罩贴图 MaskMap
+#### 8.1.マスクマップ MaskMap
 <img src="Document~/Image/ShaderGUI_8.1_MatCapMaskMap.jpg">
 
 <br/>
 <br/>
 
-### **9.光照设置 Light Setting**
+### **9.ライトの設定 Light Setting**
 ---
 <img src="Document~/Image/ShaderGUI_9.0_LightSetting.jpg">
 
-#### 9.1.附加光照 Additive Light
+#### 9.1.アディショナルライト Additive Light
 <img src="Document~/Image/ShaderGUI_9.1_LightSettingAdd.jpg">
 
-#### 9.2.光照开关 Light Toggle
+#### 9.2.ライトの開閉 Light Toggle
 <img src="Document~/Image/ShaderGUI_9.2_LightSettingToggle.jpg">
 
-#### 9.3.阴影设置 Shadow Setting
+#### 9.3.陰影の設定 Shadow Setting
 <img src="Document~/Image/ShaderGUI_9.3_LightSettingShadow.jpg">
 
-#### 9.4.内置光照 BuiltIn Light
+#### 9.4.内蔵ライト BuiltIn Light
 <img src="Document~/Image/ShaderGUI_9.3_LightSettingBuiltIn.jpg">
 
-#### 9.5.光照方向锁定 Direction Lock
+#### 9.5.ライト方向の固定 Direction Lock
 <img src="Document~/Image/ShaderGUI_9.4_LightSettingDirLock.jpg">
