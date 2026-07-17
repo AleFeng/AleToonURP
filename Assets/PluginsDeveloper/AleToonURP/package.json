@@ -1,0 +1,35 @@
+{
+  "name": "com.alefeng.aletoonurp",
+  "version": "1.2.1",
+  "displayName": "AleToonURP",
+  "description": "A high-performance NPR (anime / toon) rendering pipeline & shader for Unity URP. Includes a feature-rich Lit toon shader (shade, outline, rim light, highlight, emissive, MatCap, light settings) and an NPR water-plane shader, with a custom foldout ShaderGUI.",
+  "unity": "2022.3",
+  "documentationUrl": "https://github.com/AleFeng/AleToonURP",
+  "changelogUrl": "https://github.com/AleFeng/AleToonURP/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/AleFeng/AleToonURP/blob/main/LICENSE",
+  "keywords": [
+    "toon",
+    "npr",
+    "shader",
+    "urp",
+    "anime",
+    "cel",
+    "water"
+  ],
+  "author": {
+    "name": "AleFeng",
+    "email": "ablegamesstudio@gmail.com",
+    "url": "https://github.com/AleFeng"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "14.0.12"
+  },
+  "samples": [
+    {
+      "displayName": "Example Materials & Textures",
+      "description": "Example Lit / Water Plane materials and their textures.",
+      "path": "Example"
+    }
+  ]
+}

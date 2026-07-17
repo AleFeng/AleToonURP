@@ -4,9 +4,9 @@
 
 <p align="center">
   <img alt="Version" src="https://img.shields.io/badge/version-1.2.1-blue">
-  <img alt="Unity" src="https://img.shields.io/badge/Unity-2021.3%20LTS-black?logo=unity">
-  <img alt="URP" src="https://img.shields.io/badge/URP-12.x-blue">
-  <img alt="License" src="https://img.shields.io/badge/license-GPL--2.0-blueviolet">
+  <img alt="Unity" src="https://img.shields.io/badge/Unity-2022.3-black?logo=unity">
+  <img alt="URP" src="https://img.shields.io/badge/URP-14.x-blue">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-blueviolet">
 </p>
 
 <p align="center">
@@ -31,6 +31,7 @@ It implements most of the art effects commonly used in anime-style rendering, an
 - [Overview](#-overview)
 - [Key Features](#-key-features)
 - [Requirements](#-requirements)
+- [Installation](#-installation)
 - [User Manual](#-user-manual)
 - [Diverse Art Styles](#-diverse-art-styles)
 - [NPR-Style Water Surface](#-npr-style-water-surface)
@@ -51,7 +52,7 @@ It implements most of the art effects commonly used in anime-style rendering, an
 - [License](#-license)
 
 ## 📋 Overview
-AleToonURP is an `NPR` anime / toon rendering pipeline and shader developed on `Unity 2021.3 LTS (URP 12.x)`.\
+AleToonURP is an `NPR` anime / toon rendering pipeline and shader developed on `Unity 2022.3 (URP 14.x)`.\
 It implements most of the art effects commonly used in anime-style rendering.\
 The shaders are written to be as `high-performance` as possible, so they can run on most platforms (console and mobile).\
 A custom `Shader GUI` is also provided, making the shaders convenient and easy to use for artists.
@@ -67,9 +68,21 @@ A custom `Shader GUI` is also provided, making the shaders convenient and easy t
 | Multi-Platform | Designed for high performance to run on most platforms, including PC and mobile. |
 
 ## 💻 Requirements
-- Developed and validated on `Unity 2021.3 LTS` (URP 12.x).
-- Render pipeline: `Universal Render Pipeline (URP) 12.x`
+- Developed and validated on `Unity 2022.3` (URP 14.x).
+- Render pipeline: `Universal Render Pipeline (URP) 14.x`
 - Supported platforms: most shader-compatible platforms, including PC and mobile.
+
+## 📦 Installation
+Open `Window → Package Manager` in Unity, click `+ → Add package from git URL...` in the top-left corner, and enter:
+
+```
+https://github.com/AleFeng/AleToonURP.git?path=Assets/PluginsDeveloper/AleToonURP
+```
+
+After installation, expand `Samples` on the package page in Package Manager to import the example materials and textures.
+
+<br/>
+<br/>
 
 ## 📖 User Manual
 **[中文版用户手册](Document~/UserManual.md)**\
@@ -244,4 +257,4 @@ You can configure each `rendering feature` of the material `step by step` follow
 For detailed update notes, see [CHANGELOG.md](CHANGELOG.md).
 
 ## 📄 License
-This project is open-sourced under the [GNU General Public License v2.0](LICENSE).
+This project is open-sourced under the [MIT License](LICENSE).

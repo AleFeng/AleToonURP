@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace UnityEditor.AleToonURP.ShaderGUI
+namespace AleToonURP.ShaderGUI
 {
     /// <summary>
     /// 材质球编辑器界面-AleToonURP/WaterPlane

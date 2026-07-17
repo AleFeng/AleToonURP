@@ -1,10 +1,12 @@
-# 【AleToonURP Ver-1.0.0】
+# 【AleToonURP Ver-1.2.1】
 - ***阅读中文版用户手册 [中文版本](UserManual.md)***
 - ***Read this user manual in [English](UserManual_en.md)***
 
 ## 【概述】
 ---
-// TODO
+AleToonURP 是一个基于 Unity URP 的 `NPR`（二次元卡通）渲染 Shader。\
+本用户手册按照 Shader 自定义编辑器界面的折叠栏顺序，逐项说明每个功能的`特性`与`使用方式`，帮助你`快速了解`并掌握各项渲染功能的调节方法。\
+建议一边调节材质球参数，一边观察实时效果。
 
 <br/>
 <br/>

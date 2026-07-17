@@ -20,14 +20,14 @@ Shader "AleToonURP/Water Plane"
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 反射 Reflect ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
         [NoScaleOffset]_ReflectCubeMap ("Reflect Cube Map", CUBE) = "white" {} //反射贴图
         _ReflectIntensity ("Reflect Intensity", Range(0, 2)) = 0.1 //反射强度
-        _ReflectBulrIntensity ("Reflect Bulr Intensity",Range(0, 7)) = 0.1 //模糊强度
+        _ReflectBulrIntensity ("Reflect Blur Intensity",Range(0, 7)) = 0.1 //模糊强度
         _FresnelFactor ("Fresnel Factor", Range(0.001, 10)) = 5 //菲涅尔 系数
         _FresnelIntensity ("Fresnel Intensity", Range(0, 5)) = 2 //菲涅尔 强度
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 反射 Reflect ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 折射 Refract ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
         _RefractIntensity ("Refract Intensity", Range(0, 1)) = 0.1 //折射强度
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 反射 Reflect ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 折射 Refract ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 边缘泡沫 EdgeFoam ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
         _EdgeThresholdMap ("Edge Threshold Map", 2D) = "white" {} //阈值贴图
@@ -84,5 +84,5 @@ Shader "AleToonURP/Water Plane"
     }
 
     //自定义Shader编辑器面板
-    CustomEditor "UnityEditor.AleToonURP.ShaderGUI.ShaderGUIWaterPlane"
+    CustomEditor "AleToonURP.ShaderGUI.ShaderGUIWaterPlane"
 }

@@ -429,5 +429,5 @@ Shader "AleToonURP/Lit"
     }
 
     //自定义Shader编辑器面板
-    //CustomEditor "UnityEditor.AleToonURP.ShaderGUI.ShaderGUILit"
+    CustomEditor "AleToonURP.ShaderGUI.ShaderGUILit"
 }

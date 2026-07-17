@@ -1,9 +1,7 @@
 {
     "name": "AleToonURP.Editor",
-    "rootNamespace": "",
-    "references": [
-        "Unity.UniversalToonShader.Urp"
-    ],
+    "rootNamespace": "AleToonURP",
+    "references": [],
     "includePlatforms": [
         "Editor"
     ],

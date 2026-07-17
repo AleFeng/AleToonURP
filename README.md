@@ -4,9 +4,9 @@
 
 <p align="center">
   <img alt="Version" src="https://img.shields.io/badge/version-1.2.1-blue">
-  <img alt="Unity" src="https://img.shields.io/badge/Unity-2021.3%20LTS-black?logo=unity">
-  <img alt="URP" src="https://img.shields.io/badge/URP-12.x-blue">
-  <img alt="License" src="https://img.shields.io/badge/license-GPL--2.0-blueviolet">
+  <img alt="Unity" src="https://img.shields.io/badge/Unity-2022.3-black?logo=unity">
+  <img alt="URP" src="https://img.shields.io/badge/URP-14.x-blue">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-blueviolet">
 </p>
 
 <p align="center">
@@ -31,6 +31,7 @@
 - [概述](#-概述)
 - [主要特性](#-主要特性)
 - [环境要求](#-环境要求)
+- [安装](#-安装)
 - [用户手册](#-用户手册)
 - [多样化的美术风格](#-多样化的美术风格)
 - [NPR风格的水面](#-npr风格的水面)
@@ -51,7 +52,7 @@
 - [许可证](#-许可证)
 
 ## 📋 概述
-这是一个基于 `Unity 2021.3LTS(URP 12.x)` 开发的`NPR`二次元卡通渲染Shader。\
+这是一个基于 `Unity 2022.3(URP 14.x)` 开发的`NPR`二次元卡通渲染Shader。\
 实现了大多数二次元卡通渲染中常用的美术效果。\
 编写Shader时尽力保证其`性能高效`，以便它能够在大多数平台(主机或移动端)上使用。\
 同时开发了Shader的`自定义编辑器界面`，使创作者在使用时能够更加方便快捷。
@@ -67,9 +68,21 @@
 | 多平台支持 | 高性能设计，可在 PC、移动端等大多数平台上运行。 |
 
 ## 💻 环境要求
-- 基于 `Unity 2021.3 LTS`（URP 12.x）开发并验证。
-- 渲染管线：`Universal Render Pipeline (URP) 12.x`
+- 基于 `Unity 2022.3`（URP 14.x）开发并验证。
+- 渲染管线：`Universal Render Pipeline (URP) 14.x`
 - 支持平台：兼容 Shader 的 PC、移动端等大多数平台。
+
+## 📦 安装
+在 Unity 中打开 `Window → Package Manager`，点击左上角 `+ → Add package from git URL...`，输入以下地址：
+
+```
+https://github.com/AleFeng/AleToonURP.git?path=Assets/PluginsDeveloper/AleToonURP
+```
+
+安装完成后，可在 Package Manager 的本包页面展开 `Samples`，导入示例材质与贴图。
+
+<br/>
+<br/>
 
 ## 📖 用户手册
 **[中文版用户手册](Document~/UserManual.md)**\
@@ -244,4 +257,4 @@
 详细的更新内容请查看 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 📄 许可证
-本项目基于 [GNU General Public License v2.0](LICENSE) 开源。
+本项目基于 [MIT License](LICENSE) 开源。

@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections.Generic;
 
-namespace UnityEditor.AleToonURP.ShaderGUI
+namespace AleToonURP.ShaderGUI
 {
     /// <summary>
     /// GUI扩展
