@@ -8,10 +8,6 @@
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
 
-#if defined(_DETAIL_MULX2) || defined(_DETAIL_SCALED)
-#define _DETAIL
-#endif
-
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 属性声明 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     //已在"Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"中定义
     //TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap); //基础贴图
