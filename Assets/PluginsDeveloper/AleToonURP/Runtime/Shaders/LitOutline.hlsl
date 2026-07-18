@@ -7,16 +7,21 @@
         float2 uv0 : TEXCOORD0;
         float3 normalOS : NORMAL;
         float4 tangentOS : TANGENT;
+
+        UNITY_VERTEX_INPUT_INSTANCE_ID
     };
 
     //顶点着色器 输出结构
-    struct VertexOutput 
+    struct VertexOutput
     {
         float4 pos : SV_POSITION;
         float4 color : COLOR;
         float2 uv0 : TEXCOORD0;
         float3 positionWS : TEXCOORD1;
         float4 shadowCoord : TEXCOORD2;
+
+        UNITY_VERTEX_INPUT_INSTANCE_ID
+        UNITY_VERTEX_OUTPUT_STEREO
     };
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 结构体定义 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
@@ -74,7 +79,7 @@
         half3 realtimeLightColor = colorLightMain;
         //附加光照
         #if defined(_ADDLIGHT_ON)
-            half3 colorLightAdd;
+            half3 colorLightAdd = half3(0, 0, 0);
             uint lightsCount = GetAdditionalLightsCount();
             LIGHT_LOOP_BEGIN(lightsCount)
                 Light light = GetAdditionalLight(lightIndex, OUT.positionWS);
@@ -105,8 +110,8 @@
     float4 frag(VertexOutput IN) : SV_Target
     {
         //SRP-Batcher优先于GPU-Instance 互斥
-        UNITY_SETUP_INSTANCE_ID(input);
-        UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+        UNITY_SETUP_INSTANCE_ID(IN);
+        UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
 
         half4 colorFinal = half4(1, 1, 1, 1);
 
