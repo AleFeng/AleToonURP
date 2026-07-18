@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-1.2.1-blue">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.2.2-blue">
   <img alt="Unity" src="https://img.shields.io/badge/Unity-2022.3-black?logo=unity">
   <img alt="URP" src="https://img.shields.io/badge/URP-14.x-blue">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blueviolet">
