@@ -14,7 +14,7 @@
     half4 _ColorDeep; //颜色 深水
 
     //水波
-    float3 _BumpMap_ST;     
+    float4 _BumpMap_ST;
     half _BumpScale; //法线强度
     float _BumpScaleFir; //贴图缩放 首要
     float _BumpScaleSec; //贴图缩放 次要
@@ -54,10 +54,10 @@
         float4 positionCS : SV_POSITION;
         float2 uv         : TEXCOORD0;
         float2 uvNoise    : TEXCOORD1; //uv噪声纹理
-        float3 positionWS : TRXCOORD2; //世界坐标
+        float3 positionWS : TEXCOORD2; //世界坐标
         float4 positionSS : TEXCOORD3; //屏幕坐标
-        float3 normalWS   : TRXCOORD4; //法线 世界空间
-        float4 tangentWS  : TANGENT;
+        float3 normalWS   : TEXCOORD4; //法线 世界空间
+        float4 tangentWS  : TEXCOORD5; //切线 世界空间
     };
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 属性声明 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
