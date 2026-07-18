@@ -13,12 +13,6 @@
         p = float2(dot(p, float2(127.1,311.7)), dot(p, float2(269.5, 183.3)));
         return -1.0 + 2.0 * frac(sin(p) * 43758.5453123);
     }
-            
-    float2 hash21(float2 p)
-    {
-        float h = dot(p, float2(127.1, 311.7));
-        return -1.0 + 2.0 * frac(sin(h) * 43758.5453123);
-    }
 
     //噪声贴图函数 不连续
     float RandomNoiseMap(float2 seed)

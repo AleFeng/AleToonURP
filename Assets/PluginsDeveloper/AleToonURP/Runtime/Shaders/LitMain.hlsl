@@ -192,10 +192,8 @@
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 内置光照 BuiltInLight ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 基础贴图 BaseMap ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-        //基础贴图颜色
-        half3 colorBaseMapFinal = colorBaseMap.rgb;
-        //颜色混合强度
-        colorBaseMapFinal = lerp(colorBaseMap, _ColorBaseMapBlendColor, _BaseMapBlendColorIntensity).rgb;
+        //基础贴图颜色（混合自定义色）
+        half3 colorBaseMapFinal = lerp(colorBaseMap, _ColorBaseMapBlendColor, _BaseMapBlendColorIntensity).rgb;
         colorBaseMapFinal = lerp(colorBaseMapFinal, colorBaseMapFinal * colorLightBlend  * _FloatBaseMapExposureIntensity, _ToggleGlobalLightBaseMap); //光照开关
         //暗部1颜色
         half3 colorBaseMapShade1 = colorBaseMap.rgb * _ColorShade1Color.rgb;

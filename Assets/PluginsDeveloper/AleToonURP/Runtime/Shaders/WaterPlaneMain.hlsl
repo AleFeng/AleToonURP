@@ -18,8 +18,8 @@
     half _BumpScale; //法线强度
     float _BumpScaleFir; //贴图缩放 首要
     float _BumpScaleSec; //贴图缩放 次要
-    half _FloatWaveSpeedY; //速度 X轴
-    half _FloatWaveSpeedX; //速度 Y轴
+    half _FloatWaveSpeedY; //GUI「速度Y轴」滑条 → 在 frag 中实际驱动 X/U 方向偏移（历史命名，为兼容既有材质不改变量名）
+    half _FloatWaveSpeedX; //GUI「速度X轴」滑条 → 在 frag 中实际驱动 Y/V 方向偏移（历史命名，为兼容既有材质不改变量名）
 
     //水面反射
     half _ReflectIntensity; //反射强度

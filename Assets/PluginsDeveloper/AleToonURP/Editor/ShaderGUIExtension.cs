@@ -54,10 +54,8 @@ namespace AleToonURP.ShaderGUI
         /// <summary>
         /// 按钮 开关切换
         /// </summary>
-        /// <param name="material"></param>
-        /// <param name="matPropName">材质球属性名称</param>
-        /// <param name="txtON">自定义文本 ON</param>
-        /// <param name="txtOFF">自定义文本 OFF</param>
+        /// <param name="label">前缀标签文本</param>
+        /// <param name="matProp">材质球属性（floatValue 0/1 作为开关状态）</param>
         public static void BtnToggleLabel(string label, MaterialProperty matProp)
         {
             EditorGUILayout.BeginHorizontal();
@@ -71,10 +69,8 @@ namespace AleToonURP.ShaderGUI
         /// <summary>
         /// 按钮 开关切换
         /// </summary>
-        /// <param name="material"></param>
-        /// <param name="matPropName">材质球属性名称</param>
-        /// <param name="txtON">自定义文本 ON</param>
-        /// <param name="txtOFF">自定义文本 OFF</param>
+        /// <param name="label">前缀标签（含悬浮提示）</param>
+        /// <param name="matProp">材质球属性（floatValue 0/1 作为开关状态）</param>
         public static void BtnToggleLabel(GUIContent label, MaterialProperty matProp)
         {
             EditorGUILayout.BeginHorizontal();
