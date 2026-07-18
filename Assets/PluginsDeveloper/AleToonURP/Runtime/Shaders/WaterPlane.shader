@@ -42,7 +42,7 @@ Shader "AleToonURP/Water Plane"
     {
         Tags 
         {
-            "RenderPipeline"="UniversalRenderPipeline"
+            "RenderPipeline"="UniversalPipeline"
             "RenderType" = "Transparent"
             "Queue" = "Transparent"
         }
