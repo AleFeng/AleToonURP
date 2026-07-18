@@ -45,17 +45,14 @@ namespace AleToonURP.ShaderGUI
         #region 材质球属性
         private Dictionary<string, MaterialProperty> m_DicMaterialProperty = new Dictionary<string, MaterialProperty>(); //字典 属性名称:材质球属性
         private MaterialProperty[] m_MaterialPropertyArray; //材质球属性数组
-        private bool m_IsInitMaterialProperty = false; //是否初始化 材质球属性
 
         /// <summary>
         /// 设置 材质球属性
+        /// 每次 OnGUI 都用最新的 props 重建，避免属性对象在 Undo/重选材质/外部修改后过期
         /// </summary>
         /// <param name="props"></param>
         private void InitMatProperty(MaterialProperty[] props)
         {
-            if (m_IsInitMaterialProperty == true) return;
-            m_IsInitMaterialProperty = true;
-
             m_MaterialPropertyArray = props;
             if (m_MaterialPropertyArray == null) return;
 
@@ -64,7 +61,7 @@ namespace AleToonURP.ShaderGUI
             for (int i = 0; i < m_MaterialPropertyArray.Length; i++)
             {
                 var matProp = m_MaterialPropertyArray[i];
-                m_DicMaterialProperty.Add(matProp.name, matProp);
+                m_DicMaterialProperty[matProp.name] = matProp;
             }
         }
 
