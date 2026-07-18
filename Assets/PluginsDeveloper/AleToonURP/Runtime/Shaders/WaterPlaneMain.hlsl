@@ -5,8 +5,7 @@
     TEXTURE2D(_EdgeThresholdMap); SAMPLER(sampler_EdgeThresholdMap);
     //反射
     TEXTURECUBE(_ReflectCubeMap); SAMPLER(sampler_ReflectCubeMap);
-    //摄像机帧缓冲贴图
-    SAMPLER(_CameraColorTexture);
+    //摄像机不透明纹理（_CameraOpaqueTexture）由 DeclareOpaqueTexture.hlsl 提供，通过 SampleSceneColor() 采样
 
     CBUFFER_START(UnityPerMaterial)
     
@@ -132,8 +131,8 @@
         float2 uvRefrac = posSS;
         //自定义折射强度
         uvRefrac.y = uvRefrac.y * (1 + _RefractIntensity) - 0.4 * _RefractIntensity;
-        //摄像机贴图采样
-        half3 colorRefract = tex2D(_CameraColorTexture, uvRefrac).rgb;
+        //摄像机不透明纹理采样
+        half3 colorRefract = SampleSceneColor(uvRefrac).rgb;
         //颜色混合
 	    colorFinal.rgb += colorRefract;
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 折射 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
