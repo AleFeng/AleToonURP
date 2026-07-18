@@ -187,6 +187,44 @@ namespace AleToonURP.ShaderGUI
         //折叠面板的打开状态
         private static Dictionary<string, bool> m_DicFoldoutIsOpen = new Dictionary<string, bool>();
 
+        //折叠面板样式缓存（避免每帧重复构造 GUIStyle/RectOffset，减少编辑器GC）
+        private static GUIStyle m_FoldoutStyleMain;
+        private static GUIStyle m_FoldoutStyleSub;
+
+        /// <summary>
+        /// 获取（延迟构造并缓存）折叠面板样式
+        /// </summary>
+        private static GUIStyle GetFoldoutStyle(EFoldoutStyleType styleType)
+        {
+            if (styleType == EFoldoutStyleType.Sub)
+            {
+                if (m_FoldoutStyleSub == null)
+                {
+                    m_FoldoutStyleSub = new GUIStyle("ShurikenModuleTitle")
+                    {
+                        font = EditorStyles.boldLabel.font,
+                        border = new RectOffset(7, 7, 4, 4),
+                        fixedHeight = 22,
+                        contentOffset = new Vector2(32f, -2f),
+                        padding = new RectOffset(5, 7, 4, 4)
+                    };
+                }
+                return m_FoldoutStyleSub;
+            }
+
+            if (m_FoldoutStyleMain == null)
+            {
+                m_FoldoutStyleMain = new GUIStyle("ShurikenModuleTitle")
+                {
+                    font = EditorStyles.boldLabel.font,
+                    border = new RectOffset(7, 7, 4, 4),
+                    fixedHeight = 22,
+                    contentOffset = new Vector2(20f, -2f)
+                };
+            }
+            return m_FoldoutStyleMain;
+        }
+
         /// <summary>
         /// 折叠面板
         /// </summary>
@@ -195,25 +233,9 @@ namespace AleToonURP.ShaderGUI
         /// <param name="styleType"></param>
         public static void FoldoutPanel(string title, System.Action panelGUI, EFoldoutStyleType styleType = EFoldoutStyleType.Main)
         {
-            var style = new GUIStyle("ShurikenModuleTitle");
-            style.font = new GUIStyle(EditorStyles.boldLabel).font;
-            style.border = new RectOffset(7, 7, 4, 4);
-            style.fixedHeight = 22;
-            float toggleRectXoffset = 0f;
+            var style = GetFoldoutStyle(styleType);
+            float toggleRectXoffset = (styleType == EFoldoutStyleType.Sub) ? 16f : 4f;
 
-            //折叠面板类型
-            switch (styleType)
-            {
-                case EFoldoutStyleType.Main:
-                    style.contentOffset = new Vector2(20f, -2f);
-                    toggleRectXoffset = 4f;
-                    break;
-                case EFoldoutStyleType.Sub:
-                    style.contentOffset = new Vector2(32f, -2f);
-                    toggleRectXoffset = 16f;
-                    style.padding = new RectOffset(5, 7, 4, 4);
-                    break;
-            }
             var rect = GUILayoutUtility.GetRect(16f, 22f, style);
             GUI.Box(rect, title, style);
 
@@ -256,11 +278,8 @@ namespace AleToonURP.ShaderGUI
         /// <param name="style"></param>
         public static void LabelTextColor(string text, Color color, GUIStyle style = null)
         {
-            if (style == null)
-                style = EditorStyles.label;
-
             GUI.color = color;
-            GUILayout.Label(text, EditorStyles.boldLabel);
+            GUILayout.Label(text, style != null ? style : EditorStyles.boldLabel);
             GUI.color = ColorDefault;
         }
         #endregion
