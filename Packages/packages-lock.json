@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.alefeng.outlinesmoothnormalsgenerator": {
+      "version": "https://github.com/AleFeng/OutlineSmoothNormalsGenerator.git?path=/Packages/com.alefeng.outlinesmoothnormalsgenerator",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d107a06f90adf442b53f82274267f380715a6607"
+    },
     "com.unity.burst": {
       "version": "1.8.21",
       "depth": 1,

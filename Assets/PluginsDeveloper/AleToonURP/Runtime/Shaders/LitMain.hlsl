@@ -158,7 +158,7 @@
         half3 realtimeLightColor = colorLightMain;
         //附加光照
         #if defined(_ADDLIGHT_ON)
-            half3 colorLightAdd;
+            half3 colorLightAdd = half3(0, 0, 0);
             uint lightsCount = GetAdditionalLightsCount();
             LIGHT_LOOP_BEGIN(lightsCount)
                 Light light = GetAdditionalLight(lightIndex, IN.positionWS);
