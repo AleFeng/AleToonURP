@@ -59,10 +59,11 @@ Shader "AleToonURP/Lit"
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 法线贴图 NormalMap ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 外描边 Outline ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-        [KeywordEnum(VertNormal, VertColor)] _FloatOutlineType ("Outline Type", Float) = 0 //外描边类型 ●仅用于记录 设置关键词开启
-        [KeywordEnum(Same, Scaling)] _FloatOutlineWidthType ("Outline Width Type", Float) = 0 //外描边宽度类型 ●仅用于记录 设置关键词开启
+        _FloatOutlineNormalSource ("Outline Normal Source", Float) = 6 //平滑法线来源 0顶点色/1切线/2..5 TEXCOORD0..3/6顶点法线/7..10 TEXCOORD4..7 ●下拉由自定义GUI绘制
+        [Enum(RG,0,GB,1,BA,2)] _FloatOutlineVCChannel ("Outline VC Channel", Float) = 2 //顶点色通道对（顶点色来源时生效）
+        [Enum(ScreenSpace,0,WorldSpace,1)] _FloatOutlineWidthMode ("Outline Width Mode", Float) = 0 //宽度模式 屏幕等宽/世界
         [HDR]_ColorOutlineColor ("Outline Color", Color) = (0.5,0.5,0.5,1) //颜色
-        _FloatOutlineWidth ("Outline Width", Float ) = 0 //宽度
+        [PowerSlider(3.0)] _FloatOutlineWidth ("Outline Width", Range(0, 0.1)) = 0.015 //宽度
         [Toggle(_)] _ToggleOutlineBaseMapBlend ("Outline BaseMapBlend", Float ) = 0 //开关 基础贴图混合
         _FloatOutlineBaseMapBlendIntensity ("Outline BaseMapBlend Intensity", Range(0, 1) ) = 1 //基础贴图混合 强度
         //纹理贴图
@@ -325,7 +326,6 @@ Shader "AleToonURP/Lit"
 
             //关键词 外描边
             #pragma shader_feature_local _OUTLINE_ON
-            #pragma shader_feature_local _OUTLINE_WIDTH_SAME _OUTLINE_WIDTH_SCALING
             //关键词 裁剪类型
             #pragma shader_feature_local _CLIP_OFF _CLIP_DITHER _CLIP_ALPHA
             //关键词 纹理贴图
@@ -339,6 +339,7 @@ Shader "AleToonURP/Lit"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "LitPropInput.hlsl"
             #include "Function.hlsl"
+            #include "OutlineSmoothNormals.hlsl"
             #include "LitOutline.hlsl"
         ENDHLSL
         }

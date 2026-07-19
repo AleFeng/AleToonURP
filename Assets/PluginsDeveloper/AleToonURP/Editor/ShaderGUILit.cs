@@ -489,8 +489,9 @@ namespace AleToonURP.ShaderGUI
 
         #region 主面板-外描边
         private static GUIContent m_ContentOutline = new GUIContent("外描边-主开关", "设置外描边开启或关闭。");
-        private static GUIContent m_ContentOutlineType = new GUIContent("描边类型", "法线(顶点色法线)外扩描边。 VertexNormal : 顶点法线，VertexColor : 顶点颜色");
-        private static GUIContent m_ContentOutlineWidthType = new GUIContent("宽度类型", "Same : 相同宽度，Scaling : 变化宽度");
+        private static GUIContent m_ContentOutlineNormalSource = new GUIContent("平滑法线来源", "描边外扩所用平滑法线的存储位置。顶点色/切线/TEXCOORD0..7 需先用 OutlineSmoothNormalsGenerator 工具烘焙；顶点法线为未烘焙时的对照。");
+        private static GUIContent m_ContentOutlineVCChannel = new GUIContent("顶点色通道", "八面体编码平滑法线所在的顶点色通道对，需与烘焙时一致。RG / GB / BA");
+        private static GUIContent m_ContentOutlineWidthMode = new GUIContent("宽度模式", "ScreenSpace : 屏幕空间等宽（不随距离变化）；WorldSpace : 世界空间（近大远小）。");
         private static GUIContent m_ContentOutlineBaseMapBlend = new GUIContent("基础贴图混合", "与基础贴图的颜色进行混合，使描边色更加自然。");
         private static GUIContent m_ContentOutlineBaseMapToggle = new GUIContent("纹理贴图", "使外描边显特殊的纹理，而不是单纯的颜色。");
         private static GUIContent m_ContentOutlineBaseMap = new GUIContent("纹理贴图", "基础色 : 贴图采样色(sRGB) 默认:白色)");
@@ -499,15 +500,6 @@ namespace AleToonURP.ShaderGUI
         /// 关键词 外描边 开启
         /// </summary>
         private const string m_MatKeywordOutlineOn = "_OUTLINE_ON";
-        /// <summary>
-        /// 关键词 外描边 相同宽度
-        /// </summary>
-        private const string m_MatKeywordOutlineSameWidth = "_OUTLINE_WIDTH_SAME";
-        /// <summary>
-        /// 关键词 外描边 变化宽度
-        /// </summary>
-        private const string m_MatKeywordOutlineScaling = "_OUTLINE_WIDTH_SCALING";
-
         /// <summary>
         /// 关键词 外描边 纹理贴图
         /// </summary>
@@ -519,37 +511,46 @@ namespace AleToonURP.ShaderGUI
         private const string m_MatPassNameOutline = "SRPDefaultUnlit";
 
         /// <summary>
-        /// 描边类型
+        /// 平滑法线来源（枚举顺序即数值，需与 shader 的 AleOSN_SelectSmoothNormalOS 一一对应）
         /// </summary>
-        private enum EOutlineType
+        private enum EOutlineNormalSource
         {
-            /// <summary>
-            /// 顶点法线
-            /// </summary>
-            VertexNormal,
-            /// <summary>
-            /// 顶点颜色
-            /// </summary>
-            VertexColor,
-            /// <summary>
-            /// 顶点切线
-            /// </summary>
-            VertexTangent
+            VertexColor,   // 0 顶点色（八面体编码）
+            Tangent,       // 1 切线.xyz
+            TexCoord0,     // 2
+            TexCoord1,     // 3
+            TexCoord2,     // 4
+            TexCoord3,     // 5
+            VertexNormal,  // 6 顶点法线（对照，未烘焙）
+            TexCoord4,     // 7
+            TexCoord5,     // 8
+            TexCoord6,     // 9
+            TexCoord7      // 10
         }
 
         /// <summary>
-        /// 描边宽度类型
+        /// 顶点色通道对
         /// </summary>
-        private enum EOutlineWidthType
+        private enum EOutlineVCChannel
+        {
+            RG,
+            GB,
+            BA
+        }
+
+        /// <summary>
+        /// 描边宽度模式
+        /// </summary>
+        private enum EOutlineWidthMode
         {
             /// <summary>
-            /// 相同宽度
+            /// 屏幕空间等宽
             /// </summary>
-            Same,
+            ScreenSpace,
             /// <summary>
-            /// 变化宽度
+            /// 世界空间
             /// </summary>
-            Scaling
+            WorldSpace
         }
 
         /// <summary>
@@ -571,29 +572,24 @@ namespace AleToonURP.ShaderGUI
                 return;
             }
 
-            //条目 描边类型
-            ShaderGUIExtension.DropdownEnum(m_ContentOutlineType, GetMaterialProperty("_FloatOutlineType"), typeof(EOutlineType), m_MaterialEditor);
-
-            //条目 描边宽度类型
-            var matPropFloatOutlineWidthType = GetMaterialProperty("_FloatOutlineWidthType");
-            ShaderGUIExtension.DropdownEnum(m_ContentOutlineWidthType, matPropFloatOutlineWidthType, typeof(EOutlineWidthType), m_MaterialEditor);
-            //应用材质球属性-描边类型
-            switch ((EOutlineWidthType)matPropFloatOutlineWidthType.floatValue)
+            //条目 平滑法线来源
+            var matPropNormalSource = GetMaterialProperty("_FloatOutlineNormalSource");
+            ShaderGUIExtension.DropdownEnum(m_ContentOutlineNormalSource, matPropNormalSource, typeof(EOutlineNormalSource), m_MaterialEditor);
+            //顶点色来源时 显示通道对
+            if ((int)matPropNormalSource.floatValue == (int)EOutlineNormalSource.VertexColor)
             {
-                case EOutlineWidthType.Same: //相同宽度
-                    m_Material.EnableKeyword(m_MatKeywordOutlineSameWidth);
-                    m_Material.DisableKeyword(m_MatKeywordOutlineScaling);
-                    break;
-                case EOutlineWidthType.Scaling: //距离缩放
-                    m_Material.DisableKeyword(m_MatKeywordOutlineSameWidth);
-                    m_Material.EnableKeyword(m_MatKeywordOutlineScaling);
-                    break;
+                EditorGUI.indentLevel++;
+                ShaderGUIExtension.DropdownEnum(m_ContentOutlineVCChannel, GetMaterialProperty("_FloatOutlineVCChannel"), typeof(EOutlineVCChannel), m_MaterialEditor);
+                EditorGUI.indentLevel--;
             }
+
+            //条目 宽度模式
+            ShaderGUIExtension.DropdownEnum(m_ContentOutlineWidthMode, GetMaterialProperty("_FloatOutlineWidthMode"), typeof(EOutlineWidthMode), m_MaterialEditor);
 
             //条目 外描边颜色
             m_MaterialEditor.ColorProperty(GetMaterialProperty("_ColorOutlineColor"), "颜色");
             //条目 外描边宽度
-            m_MaterialEditor.FloatProperty(GetMaterialProperty("_FloatOutlineWidth"), "宽度");
+            m_MaterialEditor.RangeProperty(GetMaterialProperty("_FloatOutlineWidth"), "宽度");
             EditorGUILayout.Space();
 
             //条目 基础贴图颜色混合

@@ -1,12 +1,20 @@
 ﻿//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 结构体定义 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     //顶点着色器 输入结构
+    //携带完整的平滑法线来源数据（顶点色/切线/TEXCOORD0..7/顶点法线）
     struct VertexInput
     {
         float4 positionOS : POSITION;
-        float4 color : COLOR;
-        float2 uv0 : TEXCOORD0;
-        float3 normalOS : NORMAL;
-        float4 tangentOS : TANGENT;
+        float4 color      : COLOR;
+        float3 normalOS   : NORMAL;
+        float4 tangentOS  : TANGENT;
+        float4 uv0        : TEXCOORD0;
+        float4 uv1        : TEXCOORD1;
+        float4 uv2        : TEXCOORD2;
+        float4 uv3        : TEXCOORD3;
+        float4 uv4        : TEXCOORD4;
+        float4 uv5        : TEXCOORD5;
+        float4 uv6        : TEXCOORD6;
+        float4 uv7        : TEXCOORD7;
 
         UNITY_VERTEX_INPUT_INSTANCE_ID
     };
@@ -38,37 +46,24 @@
     #if defined(_OUTLINE_ON)
 
         VertexPositionInputs vertexInput = GetVertexPositionInputs(IN.positionOS.xyz);
-        VertexNormalInputs normalInput = GetVertexNormalInputs(IN.normalOS, IN.tangentOS);
 
         //坐标转换
-        OUT.uv0 = IN.uv0;
+        OUT.uv0 = IN.uv0.xy;
         OUT.positionWS = vertexInput.positionWS;
         //阴影坐标
         OUT.shadowCoord = TransformWorldToShadowCoord(OUT.positionWS);
 
-        //描边宽度
-        half outlineWidth = _FloatOutlineWidth * 0.001;
+        //解码平滑法线（对象空间）—— 存储来源按 _FloatOutlineNormalSource 运行时分支
+        float3 smoothNormalOS = AleOSN_SelectSmoothNormalOS(
+            _FloatOutlineNormalSource, IN.color, IN.tangentOS,
+            IN.uv0.xyz, IN.uv1.xyz, IN.uv2.xyz, IN.uv3.xyz,
+            IN.uv4.xyz, IN.uv5.xyz, IN.uv6.xyz, IN.uv7.xyz,
+            IN.normalOS, _FloatOutlineVCChannel);
+        //逆转置变换到世界空间（正确处理非均匀缩放）
+        float3 smoothNormalWS = TransformObjectToWorldNormal(smoothNormalOS);
 
-        //切线
-        real sign = IN.tangentOS.w * GetOddNegativeScale();
-        half4 tangentWS = half4(normalInput.tangentWS.xyz, sign);
-        
-        //顶点色法线
-        float3 colorDir = IN.color.rgb;
-        float3 binormalWS = cross(normalInput.normalWS, colorDir) * tangentWS.w; //副切线
-        colorDir = normalize(mul(colorDir, half3x3(tangentWS.xyz, binormalWS, normalInput.normalWS)));
-
-        //描边类型 法线/顶点色/切线
-        float3 moveDir = lerp(normalInput.normalWS.rgb, lerp(colorDir, tangentWS, step(1.01, _FloatOutlineType)), step(0.01, _FloatOutlineType));
-        moveDir = normalize(moveDir);
-        #if defined(_OUTLINE_WIDTH_SAME) //◆◆◆ 等宽
-            //沿法线方向外扩
-            OUT.pos = TransformWorldToHClip(OUT.positionWS.xyz + moveDir * outlineWidth);
-        #elif defined(_OUTLINE_WIDTH_SCALING) //◆◆◆ 变化
-            half3 vertDir = normalize(IN.positionOS).xyz;
-            half signVertNormal = dot(vertDir, moveDir) + 0.3;
-            OUT.pos = TransformWorldToHClip(OUT.positionWS.xyz + moveDir * outlineWidth * signVertNormal);
-        #endif //◆◆◆
+        //沿平滑法线在裁剪空间外扩（屏幕空间等宽 / 世界空间）
+        OUT.pos = AleOSN_ApplyOutlineOffset(vertexInput.positionCS, smoothNormalWS, _FloatOutlineWidth, _FloatOutlineWidthMode);
 
         //实时光照
         //主光照
