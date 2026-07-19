@@ -9,16 +9,17 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 19.HeadMouthTongue
   m_Shader: {fileID: 4800000, guid: 4f14c3ce624ffe441bc92162058fe263, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ADDLIGHT_ON
-  - _OUTLINE_WIDTH_SAME
   - _SURFACETYPE_OPAQUE
   m_InvalidKeywords:
   - SELFSHADOW_ON
   - _FLOATOUTLINETYPE_NML
   - _FLOATOUTLINETYPE_NORMAL
-  - _FLOATOUTLINETYPE_VERTNORMAL
   - _FLOATOUTLINEWIDTHTYPE_SAME
+  - _OUTLINE_WIDTH_SAME
   - _TOGGLEEMISSIVEANIM_FIXED
   - _TOGGLEEMISSIVEANIM_SIMPLE
   - _TOON
@@ -30,6 +31,7 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -205,10 +207,13 @@ Material:
     - _FloatMatCapShadowMaskIntensity: 0
     - _FloatNormalMapBump: 1
     - _FloatOutlineBaseMapBlendIntensity: 1
+    - _FloatOutlineNormalSource: 6
     - _FloatOutlineTexMapIntensity: 1
     - _FloatOutlineThresholdMapIntensity: 1
     - _FloatOutlineType: 2
-    - _FloatOutlineWidth: 1
+    - _FloatOutlineVCChannel: 2
+    - _FloatOutlineWidth: 0.0084
+    - _FloatOutlineWidthMode: 0
     - _FloatOutlineWidthType: 0
     - _FloatPointLightIntensity: 0
     - _FloatRealtimeLightIntensity: 5

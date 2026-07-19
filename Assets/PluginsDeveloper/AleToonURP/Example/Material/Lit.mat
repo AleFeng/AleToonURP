@@ -210,7 +210,7 @@ Material:
     - _FloatOutlineBaseMapBlendIntensity: 0.568
     - _FloatOutlineTexMapIntensity: 1
     - _FloatOutlineType: 0
-    - _FloatOutlineWidth: 20
+    - _FloatOutlineWidth: 0.02
     - _FloatOutlineWidthType: 0
     - _FloatPointLightIntensity: 0
     - _FloatRealtimeLightIntensity: 5
