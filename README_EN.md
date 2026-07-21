@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-1.2.2-blue">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.3.0-blue">
   <img alt="Unity" src="https://img.shields.io/badge/Unity-2022.3-black?logo=unity">
   <img alt="URP" src="https://img.shields.io/badge/URP-14.x-blue">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blueviolet">
@@ -80,6 +80,12 @@ https://github.com/AleFeng/AleToonURP.git?path=Assets/PluginsDeveloper/AleToonUR
 ```
 
 After installation, expand `Samples` on the package page in Package Manager to import the example materials and textures.
+
+> [!IMPORTANT]
+> **The outline feature depends on [OutlineSmoothNormalsGenerator](https://github.com/AleFeng/OutlineSmoothNormalsGenerator)** (`1.8.1` recommended, `1.7.0` minimum). Install it the same way first:
+> `https://github.com/AleFeng/OutlineSmoothNormalsGenerator.git?path=/Packages/com.alefeng.outlinesmoothnormalsgenerator`
+>
+> Without it, `AleToonURP/Lit` will fail to compile. That tool bakes smooth normals into the mesh; **the Storage Mode and Storage Space chosen when baking must match the Smooth Normal Source and Normal Space on the material's Outline panel** — a mismatch raises no error, the outline is simply scrambled or skewed.
 
 <br/>
 <br/>

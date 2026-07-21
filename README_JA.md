@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-1.2.2-blue">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.3.0-blue">
   <img alt="Unity" src="https://img.shields.io/badge/Unity-2022.3-black?logo=unity">
   <img alt="URP" src="https://img.shields.io/badge/URP-14.x-blue">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blueviolet">
@@ -80,6 +80,12 @@ https://github.com/AleFeng/AleToonURP.git?path=Assets/PluginsDeveloper/AleToonUR
 ```
 
 インストール後、Package Manager の本パッケージのページで `Samples` を展開し、サンプルのマテリアルとテクスチャをインポートできます。
+
+> [!IMPORTANT]
+> **アウトライン機能は [OutlineSmoothNormalsGenerator](https://github.com/AleFeng/OutlineSmoothNormalsGenerator) に依存します**（`1.8.1` 推奨、最低 `1.7.0`）。同じ方法で先にインストールしてください：
+> `https://github.com/AleFeng/OutlineSmoothNormalsGenerator.git?path=/Packages/com.alefeng.outlinesmoothnormalsgenerator`
+>
+> 未インストールの場合、`AleToonURP/Lit` はコンパイルできません。このツールはスムース法線をメッシュにベイクします。**ベイク時に選んだ「保存方式」と「保存空間」は、マテリアルのアウトラインパネルの「スムース法線ソース」と「保存空間」と一致させる必要があります** —— 不一致でもエラーにはならず、アウトラインが乱れる／全体的に傾くだけです。
 
 <br/>
 <br/>

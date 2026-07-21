@@ -10,13 +10,20 @@
 ## 环境要求
 - Unity `2022.3` 或更高版本
 - `Universal Render Pipeline (URP) 14.x`
+- **[OutlineSmoothNormalsGenerator](https://github.com/AleFeng/OutlineSmoothNormalsGenerator)**（建议 `1.8.1`，最低 `1.7.0`）——
+  外描边所需，**必须安装**，否则 `AleToonURP/Lit` 无法编译。
 
 ## 安装（UPM git URL）
-在 Unity 中打开 `Window → Package Manager`，点击左上角 `+ → Add package from git URL...`，输入：
+在 Unity 中打开 `Window → Package Manager`，点击左上角 `+ → Add package from git URL...`，依次输入下面两个地址：
 
 ```
+https://github.com/AleFeng/OutlineSmoothNormalsGenerator.git?path=/Packages/com.alefeng.outlinesmoothnormalsgenerator
 https://github.com/AleFeng/AleToonURP.git?path=Assets/PluginsDeveloper/AleToonURP
 ```
+
+> 外描边依赖 OutlineSmoothNormalsGenerator 把平滑法线烘焙进网格。
+> **烘焙时选择的「存储方式」与「存储空间」，必须与材质外描边面板上的「平滑法线来源」与「存储空间」保持一致** ——
+> 选错不会报错，只是描边错乱或整体偏斜。
 
 ## 示例（Samples）
 安装后，在 Package Manager 的本包页面展开 `Samples`，点击 `Example Materials & Textures` 的 `Import`，
