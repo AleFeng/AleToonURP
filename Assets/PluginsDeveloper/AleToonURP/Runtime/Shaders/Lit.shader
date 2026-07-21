@@ -61,6 +61,7 @@ Shader "AleToonURP/Lit"
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 外描边 Outline ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
         _FloatOutlineNormalSource ("Outline Normal Source", Float) = 6 //平滑法线来源 0顶点色/1切线/2..5 TEXCOORD0..3/6顶点法线/7..10 TEXCOORD4..7 ●下拉由自定义GUI绘制
         [Enum(RG,0,GB,1,BA,2)] _FloatOutlineVCChannel ("Outline VC Channel", Float) = 2 //顶点色通道对（顶点色来源时生效）
+        [Enum(ObjectSpace,0,TangentSpace,1)] _FloatOutlineNormalSpace ("Outline Normal Space", Float) = 1 //存储空间 0对象/1切线 ●需与烘焙时一致
         [Enum(ScreenSpace,0,WorldSpace,1)] _FloatOutlineWidthMode ("Outline Width Mode", Float) = 0 //宽度模式 屏幕等宽/世界
         [HDR]_ColorOutlineColor ("Outline Color", Color) = (0.5,0.5,0.5,1) //颜色
         [PowerSlider(3.0)] _FloatOutlineWidth ("Outline Width", Range(0, 0.1)) = 0.015 //宽度
@@ -339,7 +340,7 @@ Shader "AleToonURP/Lit"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "LitPropInput.hlsl"
             #include "Function.hlsl"
-            #include "OutlineSmoothNormals.hlsl"
+            #include "Packages/com.alefeng.outlinesmoothnormalsgenerator/Shader/OutlineSmoothNormals.hlsl"
             #include "LitOutline.hlsl"
         ENDHLSL
         }

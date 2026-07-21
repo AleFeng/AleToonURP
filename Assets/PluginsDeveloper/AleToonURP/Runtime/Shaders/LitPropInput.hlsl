@@ -78,6 +78,7 @@
     //外描边
     half _FloatOutlineNormalSource; //平滑法线来源 0顶点色/1切线/2..5 TEXCOORD0..3/6顶点法线/7..10 TEXCOORD4..7
     half _FloatOutlineVCChannel; //顶点色通道对 0RG/1GB/2BA
+    half _FloatOutlineNormalSpace; //存储空间 0对象空间/1切线空间（需与烘焙时一致）
     half _FloatOutlineWidthMode; //宽度模式 0屏幕等宽/1世界
     half4 _ColorOutlineColor; //颜色
     half _FloatOutlineWidth; //宽度

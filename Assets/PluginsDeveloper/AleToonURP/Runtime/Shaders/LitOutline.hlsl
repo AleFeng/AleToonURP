@@ -53,9 +53,11 @@
         //阴影坐标
         OUT.shadowCoord = TransformWorldToShadowCoord(OUT.positionWS);
 
-        //解码平滑法线（对象空间）—— 存储来源按 _FloatOutlineNormalSource 运行时分支
-        float3 smoothNormalOS = AleOSN_SelectSmoothNormalOS(
-            _FloatOutlineNormalSource, IN.color, IN.tangentOS,
+        //解码平滑法线 + 按存储空间还原到对象空间
+        //来源(_FloatOutlineNormalSource)与空间(_FloatOutlineNormalSpace)均为运行时分支
+        //解码数学的唯一真源在 OutlineSmoothNormalsGenerator 工具包，不在本仓库复制
+        float3 smoothNormalOS = OSN_GetSmoothNormalOS(
+            _FloatOutlineNormalSource, _FloatOutlineNormalSpace, IN.color, IN.tangentOS,
             IN.uv0.xyz, IN.uv1.xyz, IN.uv2.xyz, IN.uv3.xyz,
             IN.uv4.xyz, IN.uv5.xyz, IN.uv6.xyz, IN.uv7.xyz,
             IN.normalOS, _FloatOutlineVCChannel);
@@ -63,7 +65,7 @@
         float3 smoothNormalWS = TransformObjectToWorldNormal(smoothNormalOS);
 
         //沿平滑法线在裁剪空间外扩（屏幕空间等宽 / 世界空间）
-        OUT.pos = AleOSN_ApplyOutlineOffset(vertexInput.positionCS, smoothNormalWS, _FloatOutlineWidth, _FloatOutlineWidthMode);
+        OUT.pos = OSN_ApplyOutlineOffset(vertexInput.positionCS, smoothNormalWS, _FloatOutlineWidth, _FloatOutlineWidthMode);
 
         //实时光照
         //主光照
