@@ -489,8 +489,9 @@ namespace AleToonURP.ShaderGUI
 
         #region 主面板-外描边
         private static GUIContent m_ContentOutline = new GUIContent("外描边-主开关", "设置外描边开启或关闭。");
-        private static GUIContent m_ContentOutlineNormalSource = new GUIContent("平滑法线来源", "描边外扩所用平滑法线的存储位置。顶点色/切线/TEXCOORD0..7 需先用 OutlineSmoothNormalsGenerator 工具烘焙；顶点法线为未烘焙时的对照。");
+        private static GUIContent m_ContentOutlineNormalSource = new GUIContent("平滑法线来源", "描边外扩所用平滑法线的存储位置，需与 OutlineSmoothNormalsGenerator 工具烘焙时选的「存储方式」一致。顶点法线为未烘焙时的对照。\n注意：TEXCOORD 各档需要工具 1.7.0+ 烘焙的两分量八面体数据，更早版本烘的旧数据必须重新烘焙。");
         private static GUIContent m_ContentOutlineVCChannel = new GUIContent("顶点色通道", "八面体编码平滑法线所在的顶点色通道对，需与烘焙时一致。RG / GB / BA");
+        private static GUIContent m_ContentOutlineNormalSpace = new GUIContent("存储空间", "平滑法线写在哪个空间，需与工具烘焙时选的「存储空间」一致。\n对象空间 : 仅静态模型；切线空间 : 静态与蒙皮模型都正确（工具默认）。\n选错不会报错，只是描边整体偏斜 —— 排查描边异常时请先确认这一项。");
         private static GUIContent m_ContentOutlineWidthMode = new GUIContent("宽度模式", "ScreenSpace : 屏幕空间等宽（不随距离变化）；WorldSpace : 世界空间（近大远小）。");
         private static GUIContent m_ContentOutlineBaseMapBlend = new GUIContent("基础贴图混合", "与基础贴图的颜色进行混合，使描边色更加自然。");
         private static GUIContent m_ContentOutlineBaseMapToggle = new GUIContent("纹理贴图", "使外描边显特殊的纹理，而不是单纯的颜色。");
@@ -511,7 +512,7 @@ namespace AleToonURP.ShaderGUI
         private const string m_MatPassNameOutline = "SRPDefaultUnlit";
 
         /// <summary>
-        /// 平滑法线来源（枚举顺序即数值，需与 shader 的 AleOSN_SelectSmoothNormalOS 一一对应）
+        /// 平滑法线来源（枚举顺序即数值，需与工具包 OSN_SelectSmoothNormalOS 的分支一一对应）
         /// </summary>
         private enum EOutlineNormalSource
         {
@@ -536,6 +537,21 @@ namespace AleToonURP.ShaderGUI
             RG,
             GB,
             BA
+        }
+
+        /// <summary>
+        /// 平滑法线的存储空间（枚举顺序即数值，需与工具包 OSN_SPACE_OBJECT / OSN_SPACE_TANGENT 一致）
+        /// </summary>
+        private enum EOutlineNormalSpace
+        {
+            /// <summary>
+            /// 对象空间 仅静态模型
+            /// </summary>
+            ObjectSpace,
+            /// <summary>
+            /// 切线空间 静态与蒙皮模型都正确（工具默认）
+            /// </summary>
+            TangentSpace
         }
 
         /// <summary>
@@ -575,12 +591,20 @@ namespace AleToonURP.ShaderGUI
             //条目 平滑法线来源
             var matPropNormalSource = GetMaterialProperty("_FloatOutlineNormalSource");
             ShaderGUIExtension.DropdownEnum(m_ContentOutlineNormalSource, matPropNormalSource, typeof(EOutlineNormalSource), m_MaterialEditor);
+            var normalSource = (EOutlineNormalSource)(int)matPropNormalSource.floatValue;
             //顶点色来源时 显示通道对
-            if ((int)matPropNormalSource.floatValue == (int)EOutlineNormalSource.VertexColor)
+            if (normalSource == EOutlineNormalSource.VertexColor)
             {
                 EditorGUI.indentLevel++;
                 ShaderGUIExtension.DropdownEnum(m_ContentOutlineVCChannel, GetMaterialProperty("_FloatOutlineVCChannel"), typeof(EOutlineVCChannel), m_MaterialEditor);
                 EditorGUI.indentLevel--;
+            }
+
+            //条目 存储空间
+            //切线与顶点法线两档恒为对象空间（工具包内部会短路该设置），画出来只会误导，故不显示
+            if (normalSource != EOutlineNormalSource.Tangent && normalSource != EOutlineNormalSource.VertexNormal)
+            {
+                ShaderGUIExtension.DropdownEnum(m_ContentOutlineNormalSpace, GetMaterialProperty("_FloatOutlineNormalSpace"), typeof(EOutlineNormalSpace), m_MaterialEditor);
             }
 
             //条目 宽度模式
