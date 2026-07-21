@@ -22,17 +22,18 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Barrel_v3
   m_Shader: {fileID: 4800000, guid: 4f14c3ce624ffe441bc92162058fe263, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _EMISSION
-  - _OUTLINE_ON
-  - _OUTLINE_WIDTH_SAME
   - _SURFACETYPE_OPAQUE
   m_InvalidKeywords:
+  - _EMISSION
   - _FLOATOUTLINETYPE_NML
   - _FLOATOUTLINETYPE_NORMAL
   - _FLOATOUTLINETYPE_VERTNORMAL
   - _FLOATOUTLINEWIDTHTYPE_SAME
   - _OUTLINE_SAME
+  - _OUTLINE_WIDTH_SAME
   - _TOGGLEEMISSIVEANIM_FIXED
   - _TOGGLEEMISSIVEANIM_SIMPLE
   m_LightmapFlags: 1
@@ -40,7 +41,9 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - SRPDEFAULTUNLIT
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -194,10 +197,14 @@ Material:
     - _FloatMatCapShadowMaskIntensity: 0
     - _FloatNormalMapBump: 1
     - _FloatOutlineBaseMapBlendIntensity: 0.891
+    - _FloatOutlineNormalSource: 6
+    - _FloatOutlineNormalSpace: 1
     - _FloatOutlineTexMapIntensity: 1
     - _FloatOutlineThresholdMapIntensity: 1
     - _FloatOutlineType: 0
-    - _FloatOutlineWidth: 10
+    - _FloatOutlineVCChannel: 2
+    - _FloatOutlineWidth: 0.0054
+    - _FloatOutlineWidthMode: 0
     - _FloatOutlineWidthType: 0
     - _FloatPointLightIntensity: 0
     - _FloatRealtimeLightIntensity: 5
