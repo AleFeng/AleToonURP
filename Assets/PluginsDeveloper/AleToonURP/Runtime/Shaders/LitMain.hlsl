@@ -23,11 +23,7 @@
         float4 tangentWS : TEXCOORD3;
         float3 viewDirWS : TEXCOORD4;
 
-    #ifdef _ADDITIONAL_LIGHTS_VERTEX
-        half4 fogFactorAndVertexLight : TEXCOORD5; // x: fogFactor, yzw: vertex light
-    #else
         half  fogFactor : TEXCOORD5;
-    #endif
 
     //#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
         float4 shadowCoord : TEXCOORD6;
@@ -89,11 +85,7 @@
         OUT.dynamicLightmapUV = IN.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
     #endif
         OUTPUT_SH(OUT.normalWS.xyz, OUT.vertexSH);
-    #ifdef _ADDITIONAL_LIGHTS_VERTEX
-        OUT.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
-    #else
         OUT.fogFactor = fogFactor;
-    #endif
 
         OUT.positionWS = vertexInput.positionWS;
         OUT.positionCS = vertexInput.positionCS;
