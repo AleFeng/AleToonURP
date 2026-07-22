@@ -139,8 +139,8 @@
             clip(clipValue);
         #elif defined(_CLIP_ALPHA) //◆◆◆ 裁剪_透明度
             half clipValue = SAMPLE_TEXTURE2D(_TexClipMaskMap, sampler_TexClipMaskMap, TRANSFORM_TEX(IN.uv0, _TexClipMaskMap)); //阈值采样
-            //应用 基础纹理的透明度
-            clipValue = lerp(clipValue, (clipValue + colorBaseMap.a) * 0.5, _ToggleClipTransBaseMapAlpha);
+            //应用 基础纹理的透明度（与前向Pass LitMain 同一口径：相乘）
+            clipValue = lerp(clipValue, clipValue * colorBaseMap.a, _ToggleClipTransBaseMapAlpha);
             //裁剪强度计算
             clipValue = clipValue - _FloatClipTransIntensity;
             clip(clipValue);

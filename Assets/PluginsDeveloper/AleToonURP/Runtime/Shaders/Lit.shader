@@ -321,12 +321,21 @@ Shader "AleToonURP/Lit"
             #pragma multi_compile_instancing
 
             // -------------------------------------
-            // Material Keywords
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+            // Universal Pipeline keywords（描边与前向Pass一致：受主光阴影与附加光影响）
+            //注：描边光照在顶点着色器计算，故只用贴图阴影(_MAIN_LIGHT_SHADOWS/_CASCADE)，
+            //不含屏幕空间阴影(_MAIN_LIGHT_SHADOWS_SCREEN)——后者在顶点里 Sample 无法编译
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS
 
+            // -------------------------------------
+            // Material Keywords
+            //关键词 表面类型（透明描边随表面淡出）
+            #pragma shader_feature_local _SURFACETYPE_OPAQUE _SURFACETYPE_TRANSPARENT
             //关键词 外描边
             #pragma shader_feature_local _OUTLINE_ON
+            //关键词 附加光照
+            #pragma shader_feature_local _ADDLIGHT_ON
             //关键词 裁剪类型
             #pragma shader_feature_local _CLIP_OFF _CLIP_DITHER _CLIP_ALPHA
             //关键词 纹理贴图
