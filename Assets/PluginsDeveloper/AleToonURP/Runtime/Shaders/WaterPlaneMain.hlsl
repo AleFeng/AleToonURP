@@ -58,6 +58,7 @@
         float4 positionSS : TEXCOORD3; //屏幕坐标
         float3 normalWS   : TEXCOORD4; //法线 世界空间
         float4 tangentWS  : TEXCOORD5; //切线 世界空间
+        float  fogFactor  : TEXCOORD6; //雾系数
     };
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 属性声明 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
@@ -78,6 +79,7 @@
         OUT.positionSS = ComputeScreenPos(Attributes.positionCS); //屏幕坐标
         OUT.normalWS = normalInput.normalWS;
         OUT.tangentWS = half4(normalInput.tangentWS, IN.tangentOS.w * GetOddNegativeScale()); //世界空间的切线
+        OUT.fogFactor = ComputeFogFactor(OUT.positionCS.z); //雾系数
 
         return OUT;
     }
@@ -163,6 +165,9 @@
         //颜色混合
         colorFinal = colorFinal * (1 - colorEdgeFoam.a) + colorEdgeFoam * colorEdgeFoam.a;
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 边缘泡沫 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+        //应用雾效
+        colorFinal.rgb = MixFog(colorFinal.rgb, IN.fogFactor);
   	
         return colorFinal;
     }

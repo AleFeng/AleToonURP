@@ -436,6 +436,9 @@
             colorFinal = half4(colorFinal.rgb, 1);
         #endif
 
+        //应用雾效
+        colorFinal.rgb = MixFog(colorFinal.rgb, IN.fogFactor);
+
         return colorFinal;
     }
 
