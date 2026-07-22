@@ -235,7 +235,7 @@ namespace AleToonURP.ShaderGUI
 
                 //条目 渲染队列
                 EditorGUI.BeginDisabledGroup(matPropToggleRenderQueue.floatValue == 1);
-                m_Material.renderQueue = EditorGUILayout.IntField("渲染队列", m_Material.renderQueue);
+                SetRenderQueue(EditorGUILayout.IntField("渲染队列", m_Material.renderQueue));
                 EditorGUI.EndDisabledGroup();
             }, ShaderGUIExtension.EFoldoutStyleType.Sub);
 
@@ -273,19 +273,19 @@ namespace AleToonURP.ShaderGUI
                 switch ((EClipType)matPropIntClipType.floatValue)
                 {
                     case EClipType.Off:
-                        m_Material.EnableKeyword(m_MatKeywordClipOff);
-                        m_Material.DisableKeyword(m_MatKeywordClipDither);
-                        m_Material.DisableKeyword(m_MatKeywordClipAlpha);
+                        EnableKeyword(m_MatKeywordClipOff);
+                        DisableKeyword(m_MatKeywordClipDither);
+                        DisableKeyword(m_MatKeywordClipAlpha);
                         break;
                     case EClipType.Dither:
-                        m_Material.DisableKeyword(m_MatKeywordClipOff);
-                        m_Material.EnableKeyword(m_MatKeywordClipDither);
-                        m_Material.DisableKeyword(m_MatKeywordClipAlpha);
+                        DisableKeyword(m_MatKeywordClipOff);
+                        EnableKeyword(m_MatKeywordClipDither);
+                        DisableKeyword(m_MatKeywordClipAlpha);
                         break;
                     case EClipType.Alpha:
-                        m_Material.DisableKeyword(m_MatKeywordClipOff);
-                        m_Material.DisableKeyword(m_MatKeywordClipDither);
-                        m_Material.EnableKeyword(m_MatKeywordClipAlpha);
+                        DisableKeyword(m_MatKeywordClipOff);
+                        DisableKeyword(m_MatKeywordClipDither);
+                        EnableKeyword(m_MatKeywordClipAlpha);
                         break;
                 }
             }
@@ -341,8 +341,8 @@ namespace AleToonURP.ShaderGUI
             {
                 case ESurfaceType.Opaque: //不透明
                     //关键词
-                    m_Material.EnableKeyword(m_MatKeywordSurfaceTypeOpaque);
-                    m_Material.DisableKeyword(m_MatKeywordSurfaceTypeTransparent);
+                    EnableKeyword(m_MatKeywordSurfaceTypeOpaque);
+                    DisableKeyword(m_MatKeywordSurfaceTypeTransparent);
 
                     zwrite = 1f; //深度写入
                     switch ((EClipType)matPropIntClipType.floatValue)
@@ -358,8 +358,8 @@ namespace AleToonURP.ShaderGUI
                     break;
                 case ESurfaceType.Transparent: //透明
                     //关键词
-                    m_Material.DisableKeyword(m_MatKeywordSurfaceTypeOpaque);
-                    m_Material.EnableKeyword(m_MatKeywordSurfaceTypeTransparent);
+                    DisableKeyword(m_MatKeywordSurfaceTypeOpaque);
+                    EnableKeyword(m_MatKeywordSurfaceTypeTransparent);
 
                     zwrite = 0f;
                     ignoreProjection = "True";
@@ -367,10 +367,11 @@ namespace AleToonURP.ShaderGUI
                     break;
             }
             //设置Tag
-            m_Material.SetOverrideTag("RenderType", renderType); //渲染类型
-            m_Material.SetOverrideTag("IgnoreProjection", ignoreProjection); //忽略投影器
+            SetOverrideTag("RenderType", renderType); //渲染类型
+            SetOverrideTag("IgnoreProjection", ignoreProjection); //忽略投影器
             //设置属性
-            GetMaterialProperty("_FloatSurfaceZWrite").floatValue = zwrite;
+            var matPropZWrite = GetMaterialProperty("_FloatSurfaceZWrite");
+            if (matPropZWrite.floatValue != zwrite) matPropZWrite.floatValue = zwrite; //值不同才写，避免每帧标脏
 
             //应用材质球参数-设置渲染队列
             if (matPropToggleRenderQueue.floatValue == 1)
@@ -379,13 +380,13 @@ namespace AleToonURP.ShaderGUI
                 var stencilMode = (EStencilType)matPropIntStencilType.floatValue;
                 //设置渲染队列
                 if (surfaceTypeCur == ESurfaceType.Transparent)
-                    m_Material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+                    SetRenderQueue((int)UnityEngine.Rendering.RenderQueue.Transparent);
                 else if (stencilMode == EStencilType.Reserve)
-                    m_Material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.AlphaTest - 1;
+                    SetRenderQueue((int)UnityEngine.Rendering.RenderQueue.AlphaTest - 1);
                 else if (stencilMode == EStencilType.Discard)
-                    m_Material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.AlphaTest;
+                    SetRenderQueue((int)UnityEngine.Rendering.RenderQueue.AlphaTest);
                 else
-                    m_Material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Geometry;
+                    SetRenderQueue((int)UnityEngine.Rendering.RenderQueue.Geometry);
             }
             #endregion
         }
@@ -450,10 +451,10 @@ namespace AleToonURP.ShaderGUI
             var matPropToggleShadeThresholdMap = GetMaterialProperty("_ToggleShadeThresholdMap");
             ShaderGUIExtension.BtnToggleLabel("暗部阈值贴图-主开关", matPropToggleShadeThresholdMap);
             if (matPropToggleShadeThresholdMap.floatValue == 1)
-                m_Material.EnableKeyword(m_MatKeywordShadeThresholdMap);
+                EnableKeyword(m_MatKeywordShadeThresholdMap);
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordShadeThresholdMap);
+                DisableKeyword(m_MatKeywordShadeThresholdMap);
                 return;
             }
 
@@ -576,15 +577,15 @@ namespace AleToonURP.ShaderGUI
         private void PanelMainOutline()
         {
             //条目 主开关
-            ShaderGUIExtension.BtnToggleLabelPass(m_ContentOutline, m_Material, m_MatPassNameOutline);
+            ShaderGUIExtension.BtnToggleLabelPass(m_ContentOutline, m_Materials, m_MatPassNameOutline);
             //设置 关键词
             if (m_Material.GetShaderPassEnabled(m_MatPassNameOutline) == true)
             {
-                m_Material.EnableKeyword(m_MatKeywordOutlineOn);
+                EnableKeyword(m_MatKeywordOutlineOn);
             }
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordOutlineOn);
+                DisableKeyword(m_MatKeywordOutlineOn);
                 return;
             }
 
@@ -645,10 +646,10 @@ namespace AleToonURP.ShaderGUI
                     m_MaterialEditor.RangeProperty(GetMaterialProperty("_FloatOutlineTexMapIntensity"), "纹理贴图强度");
 
                     //设置 关键词
-                    m_Material.EnableKeyword(m_MatKeywordOutlineTexMapOn);
+                    EnableKeyword(m_MatKeywordOutlineTexMapOn);
                 }
                 else
-                    m_Material.DisableKeyword(m_MatKeywordOutlineTexMapOn);
+                    DisableKeyword(m_MatKeywordOutlineTexMapOn);
             }
             , ShaderGUIExtension.EFoldoutStyleType.Sub);
         }
@@ -687,11 +688,11 @@ namespace AleToonURP.ShaderGUI
             //未开启 不显示详细设置
             if (matPropToggleRimLight.floatValue == 1)
             {
-                m_Material.EnableKeyword(m_MatKeywordRimLightOn);
+                EnableKeyword(m_MatKeywordRimLightOn);
             }
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordRimLightOn);
+                DisableKeyword(m_MatKeywordRimLightOn);
                 return;
             }
 
@@ -735,15 +736,15 @@ namespace AleToonURP.ShaderGUI
 
                         EditorGUI.indentLevel--;
 
-                        m_Material.EnableKeyword(m_MatKeywordRimLightShadeMaskColorOn); //设置 关键词
+                        EnableKeyword(m_MatKeywordRimLightShadeMaskColorOn); //设置 关键词
                     }
                     else
-                        m_Material.DisableKeyword(m_MatKeywordRimLightShadeMaskColorOn); //设置 关键词
+                        DisableKeyword(m_MatKeywordRimLightShadeMaskColorOn); //设置 关键词
 
-                    m_Material.EnableKeyword(m_MatKeywordRimLightShadeMaskOn); //设置 关键词
+                    EnableKeyword(m_MatKeywordRimLightShadeMaskOn); //设置 关键词
                 }
                 else
-                    m_Material.DisableKeyword(m_MatKeywordRimLightShadeMaskOn); //设置 关键词
+                    DisableKeyword(m_MatKeywordRimLightShadeMaskOn); //设置 关键词
 
 
                 EditorGUILayout.Space();
@@ -751,7 +752,7 @@ namespace AleToonURP.ShaderGUI
             , ShaderGUIExtension.EFoldoutStyleType.Sub);
 
             //子面板 遮罩贴图
-            ShaderGUIExtension.FoldoutPanel("● 遮罩贴图", () =>
+            ShaderGUIExtension.FoldoutPanel("● 边缘光遮罩贴图", () =>
             {
                 GUILayout.Label("绘制所有UV位置的边缘光遮罩，值越大边缘光越亮。");
                 //条目 边缘光遮罩贴图
@@ -760,9 +761,9 @@ namespace AleToonURP.ShaderGUI
                 m_MaterialEditor.TextureScaleOffsetProperty(matPropTexRimLightMaskMap);
                 //设置 关键词
                 if (matPropTexRimLightMaskMap.textureValue != null)
-                    m_Material.EnableKeyword(m_MatKeywordRimLightMaskMapOn);
+                    EnableKeyword(m_MatKeywordRimLightMaskMapOn);
                 else
-                    m_Material.DisableKeyword(m_MatKeywordRimLightMaskMapOn);
+                    DisableKeyword(m_MatKeywordRimLightMaskMapOn);
 
                 //条目 边缘光遮罩强度
                 m_MaterialEditor.RangeProperty(GetMaterialProperty("_FloatRimLightMaskMapIntensity"), "遮罩强度");
@@ -813,11 +814,11 @@ namespace AleToonURP.ShaderGUI
             //未开启 不显示详细设置
             if (matPropToggleHighLight.floatValue == 1)
             {
-                m_Material.EnableKeyword(m_MatKeywordHighLightOn);
+                EnableKeyword(m_MatKeywordHighLightOn);
             }
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordHighLightOn);
+                DisableKeyword(m_MatKeywordHighLightOn);
                 return;
             }
 
@@ -843,7 +844,7 @@ namespace AleToonURP.ShaderGUI
             }
             EditorGUILayout.Space();
 
-            ShaderGUIExtension.FoldoutPanel("● 遮罩贴图", () => 
+            ShaderGUIExtension.FoldoutPanel("● 高光遮罩贴图", () =>
             {
                 //条目 遮罩贴图
                 m_MaterialEditor.TexturePropertySingleLine(m_ContentHighLightMaskTex, GetMaterialProperty("_TexHighLightMaskMap"));
@@ -895,10 +896,10 @@ namespace AleToonURP.ShaderGUI
             var matPropToggleEmissive = GetMaterialProperty("_ToggleEmissive");
             ShaderGUIExtension.BtnToggleLabel("自发光-主开关", matPropToggleEmissive);
             if (matPropToggleEmissive.floatValue == 1)
-                m_Material.EnableKeyword(m_MatKeywordEmissiveOn);
+                EnableKeyword(m_MatKeywordEmissiveOn);
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordEmissiveOn);
+                DisableKeyword(m_MatKeywordEmissiveOn);
                 return;
             }
 
@@ -925,13 +926,13 @@ namespace AleToonURP.ShaderGUI
             //应用材质球属性-动画开关
             if (matPropToggleEmissiveAnim.floatValue == 1)
             {
-                m_Material.EnableKeyword(m_MatKeywordEmissiveAnim);
-                m_Material.DisableKeyword(m_MatKeywordEmissiveFixed);
+                EnableKeyword(m_MatKeywordEmissiveAnim);
+                DisableKeyword(m_MatKeywordEmissiveFixed);
             }
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordEmissiveAnim);
-                m_Material.EnableKeyword(m_MatKeywordEmissiveFixed);
+                DisableKeyword(m_MatKeywordEmissiveAnim);
+                EnableKeyword(m_MatKeywordEmissiveFixed);
                 return;
             }
 
@@ -1014,10 +1015,10 @@ namespace AleToonURP.ShaderGUI
             ShaderGUIExtension.BtnToggleLabel("材质捕获-主开关", matPropToggleMatCap);
             //未开启 不显示详细设置
             if (matPropToggleMatCap.floatValue == 1)
-                m_Material.EnableKeyword(m_MatKeywordMatCapOn);
+                EnableKeyword(m_MatKeywordMatCapOn);
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordMatCapOn);
+                DisableKeyword(m_MatKeywordMatCapOn);
                 return;
             }
 
@@ -1033,19 +1034,19 @@ namespace AleToonURP.ShaderGUI
             switch ((EColorBlend)matPropFloatMatCapColorBlend.floatValue)
             {
                 case EColorBlend.Additive:
-                    m_Material.EnableKeyword(m_MatKeywordMatCapOnColorBlendAdditive);
-                    m_Material.DisableKeyword(m_MatKeywordMatCapOnColorBlendMultiply);
-                    m_Material.DisableKeyword(m_MatKeywordMatCapOnColorBlendLerp);
+                    EnableKeyword(m_MatKeywordMatCapOnColorBlendAdditive);
+                    DisableKeyword(m_MatKeywordMatCapOnColorBlendMultiply);
+                    DisableKeyword(m_MatKeywordMatCapOnColorBlendLerp);
                     break;
                 case EColorBlend.Multiply:
-                    m_Material.DisableKeyword(m_MatKeywordMatCapOnColorBlendAdditive);
-                    m_Material.EnableKeyword(m_MatKeywordMatCapOnColorBlendMultiply);
-                    m_Material.DisableKeyword(m_MatKeywordMatCapOnColorBlendLerp);
+                    DisableKeyword(m_MatKeywordMatCapOnColorBlendAdditive);
+                    EnableKeyword(m_MatKeywordMatCapOnColorBlendMultiply);
+                    DisableKeyword(m_MatKeywordMatCapOnColorBlendLerp);
                     break;
                 case EColorBlend.Lerp:
-                    m_Material.DisableKeyword(m_MatKeywordMatCapOnColorBlendAdditive);
-                    m_Material.DisableKeyword(m_MatKeywordMatCapOnColorBlendMultiply);
-                    m_Material.EnableKeyword(m_MatKeywordMatCapOnColorBlendLerp);
+                    DisableKeyword(m_MatKeywordMatCapOnColorBlendAdditive);
+                    DisableKeyword(m_MatKeywordMatCapOnColorBlendMultiply);
+                    EnableKeyword(m_MatKeywordMatCapOnColorBlendLerp);
                     break;
             }
             //条目 颜色混合强度
@@ -1066,7 +1067,7 @@ namespace AleToonURP.ShaderGUI
             EditorGUILayout.Space();
 
             //子面板 遮罩贴图
-            ShaderGUIExtension.FoldoutPanel("● 遮罩贴图", ()=> 
+            ShaderGUIExtension.FoldoutPanel("● 材质捕获遮罩贴图", ()=>
             {
                 //条目 遮罩贴图 偏移&缩放
                 var matPropTexMatCapMaskMap = GetMaterialProperty("_TexMatCapMaskMap");
@@ -1134,10 +1135,10 @@ namespace AleToonURP.ShaderGUI
             var matPropToggleAddLight = GetMaterialProperty("_ToggleAddLight");
             ShaderGUIExtension.BtnToggleLabel("附加光照-主开关", matPropToggleAddLight);
             if (matPropToggleAddLight.floatValue == 1)
-                m_Material.EnableKeyword(m_MatKeywordAddLightOn);
+                EnableKeyword(m_MatKeywordAddLightOn);
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordAddLightOn);
+                DisableKeyword(m_MatKeywordAddLightOn);
                 return;
             }
 
@@ -1183,7 +1184,7 @@ namespace AleToonURP.ShaderGUI
         private void PanelSubShadowReceive()
         {
             //条目 阴影投射开关
-            ShaderGUIExtension.BtnToggleLabelPass(m_ContentGlobalLightShadowCaster, m_Material, m_MatPassNameShadowCaster);
+            ShaderGUIExtension.BtnToggleLabelPass(m_ContentGlobalLightShadowCaster, m_Materials, m_MatPassNameShadowCaster);
             //阴影投射开关折叠
             if (m_Material.GetShaderPassEnabled(m_MatPassNameShadowCaster) == true)
             {
@@ -1228,10 +1229,10 @@ namespace AleToonURP.ShaderGUI
             ShaderGUIExtension.BtnToggleLabel(m_ContentGlobalLightBuiltInLight, matPropToggleBuiltInLight);
             //内置光照开关折叠
             if (matPropToggleBuiltInLight.floatValue == 1)
-                m_Material.EnableKeyword(m_MatKeywordBuiltInLight);
+                EnableKeyword(m_MatKeywordBuiltInLight);
             else
             {
-                m_Material.DisableKeyword(m_MatKeywordBuiltInLight);
+                DisableKeyword(m_MatKeywordBuiltInLight);
                 return;
             }
 

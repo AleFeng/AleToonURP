@@ -104,24 +104,25 @@ namespace AleToonURP.ShaderGUI
         /// </summary>
         /// <param name="material"></param>
         /// <param name="shaderPassName">shader Pass名称</param>
-        public static void BtnToggleLabelPass(GUIContent label, Material material, string shaderPassName)
+        public static void BtnToggleLabelPass(GUIContent label, Material[] materials, string shaderPassName)
         {
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.PrefixLabel(label);
 
-            if (material.GetShaderPassEnabled(shaderPassName))
+            //状态取首个材质用于显示；点击时开关写入全部选中材质
+            if (materials[0].GetShaderPassEnabled(shaderPassName))
             {
                 GUI.color = ColorON;
                 if (GUILayout.Button("开", LayoutBtnSmall))
-                    material.SetShaderPassEnabled(shaderPassName, false);
+                    foreach (var m in materials) m.SetShaderPassEnabled(shaderPassName, false);
                 GUI.color = ColorDefault;
             }
             else
             {
                 GUI.color = ColorOFF;
                 if (GUILayout.Button("关", LayoutBtnSmall))
-                    material.SetShaderPassEnabled(shaderPassName, true);
+                    foreach (var m in materials) m.SetShaderPassEnabled(shaderPassName, true);
                 GUI.color = ColorDefault;
             }
 
@@ -148,16 +149,22 @@ namespace AleToonURP.ShaderGUI
 
             EditorGUI.showMixedValue = property.hasMixedValue;
 
-            //下拉弹窗
+            //下拉弹窗（按枚举实际数值 ↔ 列表索引映射，兼容将来非连续/显式赋值的枚举）
             var enumNames = System.Enum.GetNames(type);
-            var mode = property.floatValue;
+            var enumValues = System.Enum.GetValues(type);
+            int current = (int)property.floatValue;
+            int selectedIndex = 0;
+            for (int i = 0; i < enumValues.Length; i++)
+            {
+                if (System.Convert.ToInt32(enumValues.GetValue(i)) == current) { selectedIndex = i; break; }
+            }
             EditorGUI.BeginChangeCheck();
-            mode = EditorGUILayout.Popup(label, (int)mode, enumNames);
+            selectedIndex = EditorGUILayout.Popup(label, selectedIndex, enumNames);
             if (EditorGUI.EndChangeCheck())
             {
                 //更新材质球数值
                 materialEditor.RegisterPropertyChangeUndo(label.text);
-                property.floatValue = mode;
+                property.floatValue = System.Convert.ToInt32(enumValues.GetValue(selectedIndex));
             }
 
             EditorGUI.showMixedValue = false;

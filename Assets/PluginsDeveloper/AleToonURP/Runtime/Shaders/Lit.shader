@@ -171,7 +171,7 @@ Shader "AleToonURP/Lit"
         [Toggle(_)] _ToggleGlobalLightOutline ("GlobalLight Outline Toggle", Float) = 1 //外描边
         
         //阴影设置
-        [Toggle(_)] _ToggleShadowCaster ("ShadowCaster Toggle", Float ) = 1 //开关 阴影投射 ●仅用于记录 设置Pass开启
+        [Toggle(_)] _ToggleShadowCaster ("ShadowCaster Toggle", Float ) = 1 //开关 阴影投射 ●未被读取：阴影投射Pass实际由 GetShaderPassEnabled/SetShaderPassEnabled 驱动，此属性为历史遗留占位
         _Cutoff ("Alpha Cutoff", Range(0, 1)) = 0.5 //透明度裁切阈值
         [Toggle(_)] _ToggleShadowReceive ("ShadowReceive Toggle", Float ) = 1 //开关 阴影接收
         _FloatShadowIntensity ("Shadow Intensity", Range(-1, 1)) = 0 //阴影强度
