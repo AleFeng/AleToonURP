@@ -1,7 +1,9 @@
 {
     "name": "AleToonURP.Editor",
     "rootNamespace": "AleToonURP",
-    "references": [],
+    "references": [
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
     "includePlatforms": [
         "Editor"
     ],

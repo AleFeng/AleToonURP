@@ -1,6 +1,6 @@
 {
   "name": "com.alefeng.aletoonurp",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "displayName": "AleToonURP",
   "description": "A high-performance NPR (anime / toon) rendering pipeline & shader for Unity URP. Includes a feature-rich Lit toon shader (shade, outline, rim light, highlight, emissive, MatCap, light settings) and an NPR water-plane shader, with a custom foldout ShaderGUI.",
   "unity": "2022.3",

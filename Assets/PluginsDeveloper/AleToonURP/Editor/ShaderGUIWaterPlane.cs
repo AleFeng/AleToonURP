@@ -12,12 +12,33 @@ namespace AleToonURP.ShaderGUI
         {
             base.OnGUIAleToon();
 
+            //水面依赖 URP 的 Depth / Opaque Texture，缺失时给出提示
+            CheckCameraTextureSupport();
+
             //主面板列表
             ShaderGUIExtension.FoldoutPanel("【基础 Basic】颜色", PanelMainBasic);
             ShaderGUIExtension.FoldoutPanel("【水波 Wave】法线贴图、缩放、速度", PanelMainWave);
             ShaderGUIExtension.FoldoutPanel("【反射 Reflect】反射贴图、强度、模糊、菲涅尔", PanelMainReflect);
             ShaderGUIExtension.FoldoutPanel("【折射 Refract】强度", PanelMainRefract);
             ShaderGUIExtension.FoldoutPanel("【边缘泡沫 EdgeFoam】阈值贴图、裁剪、距离、模糊、透明度", PanelMainEdgeFoam);
+        }
+
+        /// <summary>
+        /// 水面的折射 / 深度水色 / 边缘泡沫依赖 URP 的 Depth Texture 与 Opaque Texture，
+        /// 当前 URP Asset 未全部开启时给出提示（这两项也可在相机上单独开启，故仅作提醒）。
+        /// </summary>
+        private void CheckCameraTextureSupport()
+        {
+            var urp = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset;
+            if (urp == null) return;
+            if (!urp.supportsCameraDepthTexture || !urp.supportsCameraOpaqueTexture)
+            {
+                EditorGUILayout.HelpBox(
+                    "水面依赖 URP 的 Depth Texture 与 Opaque Texture。当前 URP Asset 未全部开启，折射 / 深度水色 / 边缘泡沫可能失效。\n" +
+                    "请在 URP Asset 中勾选 Depth Texture 与 Opaque Texture（或在相机上单独开启）。",
+                    MessageType.Warning);
+                EditorGUILayout.Space();
+            }
         }
 
         #region 主面板-基础

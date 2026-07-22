@@ -12,6 +12,8 @@
 - `Universal Render Pipeline (URP) 14.x`
 - **[OutlineSmoothNormalsGenerator](https://github.com/AleFeng/OutlineSmoothNormalsGenerator)**（建议 `1.8.1`，最低 `1.7.0`）——
   外描边所需，**必须安装**，否则 `AleToonURP/Lit` 无法编译。
+- 水面 Shader（`AleToonURP/Water Plane`）的折射 / 深度水色 / 边缘泡沫依赖 URP 的 **Depth Texture** 与 **Opaque Texture**，
+  需在 URP Asset 中开启（材质面板会在缺失时提示）。
 
 ## 安装（UPM git URL）
 在 Unity 中打开 `Window → Package Manager`，点击左上角 `+ → Add package from git URL...`，依次输入下面两个地址：
@@ -32,7 +34,7 @@ https://github.com/AleFeng/AleToonURP.git?path=Assets/PluginsDeveloper/AleToonUR
 ## 使用
 1. 新建材质球，Shader 选择 `AleToonURP/Lit` 或 `AleToonURP/Water Plane`。
 2. 在 Inspector 的折叠面板中逐项调节各渲染功能。
-3. 详细的参数说明请参考完整文档中的用户手册。
+3. 详细的参数说明请参考[用户手册](https://github.com/AleFeng/AleToonURP/blob/main/Document~/UserManual.md)（中文 / [English](https://github.com/AleFeng/AleToonURP/blob/main/Document~/UserManual_en.md)）。
 
 ## 许可证
 本项目基于 [MIT License](LICENSE.md) 开源。
