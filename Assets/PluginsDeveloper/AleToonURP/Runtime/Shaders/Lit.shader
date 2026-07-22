@@ -375,8 +375,8 @@ Shader "AleToonURP/Lit"
 
             // -------------------------------------
             // Material Keywords
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+            //关键词 裁剪类型（阴影轮廓与表面一致地溶解）
+            #pragma shader_feature_local _CLIP_OFF _CLIP_DITHER _CLIP_ALPHA
 
             // -------------------------------------
             // Universal Pipeline keywords
@@ -384,11 +384,12 @@ Shader "AleToonURP/Lit"
             // This is used during shadow map generation to differentiate between directional and punctual light shadows, as they use different formulas to apply Normal Bias
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
-            #pragma vertex ShadowPassVertex
-            #pragma fragment ShadowPassFragment
+            #pragma vertex AleShadowPassVertex
+            #pragma fragment AleShadowPassFragment
 
+            #define ALETOON_SHADOWCASTER
             #include "LitPropInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
+            #include "LitShadowDepth.hlsl"
             ENDHLSL
         }
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 阴影投射 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
@@ -410,16 +411,17 @@ Shader "AleToonURP/Lit"
             // GPU Instancing
             #pragma multi_compile_instancing
 
-            #pragma vertex DepthOnlyVertex
-            #pragma fragment DepthOnlyFragment
+            #pragma vertex AleDepthOnlyVertex
+            #pragma fragment AleDepthOnlyFragment
 
             // -------------------------------------
             // Material Keywords
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-            
+            //关键词 裁剪类型（深度轮廓与表面一致地溶解）
+            #pragma shader_feature_local _CLIP_OFF _CLIP_DITHER _CLIP_ALPHA
+
+            #define ALETOON_DEPTHONLY
             #include "LitPropInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
+            #include "LitShadowDepth.hlsl"
             ENDHLSL
         }
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 深度贴图 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
