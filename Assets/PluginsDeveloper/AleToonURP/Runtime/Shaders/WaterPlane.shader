@@ -9,7 +9,7 @@ Shader "AleToonURP/Water Plane"
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 基础 Basic ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 水波 Wave ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-        _BumpMap ("Bump Map", 2D) = "bump" {} //法线贴图
+        [NoScaleOffset] _BumpMap ("Bump Map", 2D) = "bump" {} //法线贴图 ●平铺由缩放参数控制，不用Tiling/Offset
         _BumpScale ("Bump Scale", Range(0.001, 5)) = 1 //强度
         _BumpScaleFir("BumpMap Scale First", Range(0, 5)) = 1 //纹理缩放 主要
         _BumpScaleSec("BumpMap Scale Second", Range(0, 5)) = 1 //纹理缩放 次要
@@ -56,18 +56,13 @@ Shader "AleToonURP/Water Plane"
             Blend SrcAlpha OneMinusSrcAlpha
 
         HLSLPROGRAM
-            #pragma prefer_hlslcc gles
-            #pragma exclude_renderers d3d11_9x
-            #pragma target 2.0
+            //target 3.0：frag 用了显式LOD的 SAMPLE_TEXTURECUBE_LOD 与场景深度/颜色采样
+            #pragma target 3.0
 
             // -------------------------------------
             // Unity defined keywords
-            #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
-            #pragma multi_compile _ SHADOWS_SHADOWMASK
-            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-            #pragma multi_compile _ LIGHTMAP_ON
+            //水面 frag 不采样光照贴图/GI、无 DEBUG_DISPLAY 分支，故只保留雾
             #pragma multi_compile_fog
-            #pragma multi_compile_fragment _ DEBUG_DISPLAY
 
             //顶点/片元着色器
             #pragma vertex vert

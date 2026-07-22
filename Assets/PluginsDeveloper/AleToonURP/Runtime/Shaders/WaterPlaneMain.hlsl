@@ -13,8 +13,7 @@
     half4 _ColorShallow; //颜色 浅水
     half4 _ColorDeep; //颜色 深水
 
-    //水波
-    float4 _BumpMap_ST;
+    //水波（_BumpMap 标记 [NoScaleOffset]：无 _BumpMap_ST，平铺由 _BumpScaleFir/Sec 控制）
     half _BumpScale; //法线强度
     float _BumpScaleFir; //贴图缩放 首要
     float _BumpScaleSec; //贴图缩放 次要
@@ -90,9 +89,6 @@
         //观察方向
         float3 viewDirWS = GetWorldSpaceNormalizeViewDir(IN.positionWS); //观察方向
         
-        //主光照
-        Light lightMain = GetMainLight(TransformWorldToShadowCoord(IN.positionWS));
-        float3 hdir = normalize(lightMain.direction + viewDirWS); //光方向 + 视方向
 
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ uv动画偏移 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
         float2 uvOffset = IN.uv;
@@ -145,7 +141,7 @@
         //反射贴图采样
         half3 colorReflect = SAMPLE_TEXTURECUBE_LOD(_ReflectCubeMap, sampler_ReflectCubeMap, viewDirReflect, _ReflectBulrIntensity).rgb;
         //菲涅尔强度
-        half fresnel =  pow(saturate(1 - dot(normalWS, viewDirWS)), 5 - _FresnelFactor * 0.5);
+        half fresnel =  pow(saturate(1 - dot(normalWS, viewDirWS)), max(5 - _FresnelFactor * 0.5, 1e-3)); //指数下限：防 _FresnelFactor=10 时 pow(0,0) 出 NaN
         //最终反射颜色 反射强度 + 菲涅尔强度
         colorReflect = colorReflect * _ReflectIntensity + colorReflect * fresnel * _FresnelIntensity;
         //颜色混合
@@ -159,7 +155,7 @@
         float foamdepthDis = saturate(depthDis / _EdgeFoamDis); //自定义 边缘泡沫的深度距离
         float thresholdCutoff = foamdepthDis * _EdgeFoamThresholdCutoff; //自定义 裁切阈值
         //平滑插值 自定义边界模糊
-        float foamIntensity = smoothstep(thresholdCutoff, thresholdCutoff + _EdgeFoamBlur, thresholdIntensity);
+        float foamIntensity = smoothstep(thresholdCutoff, thresholdCutoff + max(_EdgeFoamBlur, 1e-4), thresholdIntensity); //模糊下限：防 _EdgeFoamBlur=0 时 edge0==edge1 出 NaN
         //边缘泡沫颜色
         half4 colorEdgeFoam = half4(_EdgeFoamColor.rgb, _EdgeFoamColor.a * foamIntensity);
         //颜色混合
