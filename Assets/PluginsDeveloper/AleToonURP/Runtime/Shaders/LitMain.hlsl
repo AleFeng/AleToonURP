@@ -5,8 +5,6 @@
         float3 normalOS   : NORMAL;
         float4 tangentOS  : TANGENT;
         float2 texcoord   : TEXCOORD0;
-        float2 staticLightmapUV  : TEXCOORD1;
-        float2 dynamicLightmapUV : TEXCOORD2;
 
         UNITY_VERTEX_INPUT_INSTANCE_ID
     };
@@ -21,22 +19,8 @@
 
         float3 normalWS : TEXCOORD2;
         float4 tangentWS : TEXCOORD3;
-        float3 viewDirWS : TEXCOORD4;
 
-        half  fogFactor : TEXCOORD5;
-
-    //#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-        float4 shadowCoord : TEXCOORD6;
-    //#endif
-
-    #if defined(REQUIRES_TANGENT_SPACE_VIEW_DIR_INTERPOLATOR)
-        half3 viewDirTS : TEXCOORD7;
-    #endif
-
-        DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 8);
-    #ifdef DYNAMICLIGHTMAP_ON
-        float2  dynamicLightmapUV : TEXCOORD9; // Dynamic lightmap UVs
-    #endif
+        half  fogFactor : TEXCOORD4;
 
         float4 positionCS : SV_POSITION;
 
@@ -74,23 +58,11 @@
         half4 tangentWS = half4(normalInput.tangentWS.xyz, sign);
         OUT.tangentWS = tangentWS;
 
-    #if defined(REQUIRES_TANGENT_SPACE_VIEW_DIR_INTERPOLATOR)
-        half3 viewDirWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
-        half3 viewDirTS = GetViewDirectionTangentSpace(tangentWS, OUT.normalWS, viewDirWS);
-        OUT.viewDirTS = viewDirTS;
-    #endif
-
-        OUTPUT_LIGHTMAP_UV(IN.staticLightmapUV, unity_LightmapST, OUT.staticLightmapUV);
-    #ifdef DYNAMICLIGHTMAP_ON
-        OUT.dynamicLightmapUV = IN.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
-    #endif
-        OUTPUT_SH(OUT.normalWS.xyz, OUT.vertexSH);
         OUT.fogFactor = fogFactor;
 
         OUT.positionWS = vertexInput.positionWS;
         OUT.positionCS = vertexInput.positionCS;
-        //阴影坐标转换
-        OUT.shadowCoord = TransformWorldToShadowCoord(vertexInput.positionWS);
+        //阴影坐标不在此传递：frag 逐像素重算 TransformWorldToShadowCoord(positionWS)
 //END
         return OUT;
     }
@@ -212,12 +184,12 @@
             halfLambert = saturate(halfLambert - shadeThresholdValue);
         #endif
 
-        //暗部1 光照强度
-        _FloatBrightShade1Blur *= 0.1;
-        float lightIntensityShade1 = 1 - saturate((1 + (halfLambert - _FloatBrightShade1Step) / _FloatBrightShade1Blur));
+        //暗部1 光照强度（用局部量，不写回 CBUFFER 成员）
+        float blur1 = _FloatBrightShade1Blur * 0.1;
+        float lightIntensityShade1 = 1 - saturate((1 + (halfLambert - _FloatBrightShade1Step) / blur1));
         //暗部2 光照强度
-        _FloatShade1Shade2Blur *= 0.05;
-        float lightIntensityShade2 = 1 - saturate((1 + (halfLambert - _FloatShade1Shade2Step) / _FloatShade1Shade2Blur));
+        float blur2 = _FloatShade1Shade2Blur * 0.05;
+        float lightIntensityShade2 = 1 - saturate((1 + (halfLambert - _FloatShade1Shade2Step) / blur2));
 
         //混合三色阶的颜色
         float3 colorFinalBlend = lerp(colorBaseMapFinal, lerp(colorBaseMapShade1, colorBaseMapShade2, lightIntensityShade2), lightIntensityShade1);
@@ -320,7 +292,7 @@
         #if defined(_MATCAP_ON)
             //uv坐标计算
             float3 normalDirOnMatCap = lerp(normalDirWS, normalDirTex, _ToggleNormalMapOnMatCap); //法线贴图开关
-            float2 uvMatCap = mul(UNITY_MATRIX_V, float4(normalDirOnMatCap, 1)).xy; //转换至观察空间
+            float2 uvMatCap = mul(UNITY_MATRIX_V, float4(normalDirOnMatCap, 0)).xy; //转换至观察空间（w=0：只旋转不含相机平移）
             uvMatCap = uvMatCap * 0.5 + 0.5; //1~1映射至0~1 用于UV采样
             uvMatCap = RotateUV(uvMatCap, _FloatMatCapRotate * 3.141592654, float2(0.5, 0.5)); //uv旋转
             //MatCap贴图采样
@@ -365,7 +337,7 @@
                 colorFinalBlend += colorEmissiveFinal;
             #elif defined(_EMISSIVE_ANIM) //◆◆◆2 自发光动画
                 //UV比例模式
-                float2 uvEmissiveMatCap = mul(UNITY_MATRIX_V, float4(normalDirWS, 1)).xy; //转换至观察空间
+                float2 uvEmissiveMatCap = mul(UNITY_MATRIX_V, float4(normalDirWS, 0)).xy; //转换至观察空间（w=0：只旋转不含相机平移）
                 uvEmissiveMatCap = uvEmissiveMatCap * 0.5 + 0.5; //1~1映射至0~1 用于UV采样
                 float2 uvEmissive = lerp(uv0, uvEmissiveMatCap, _FloatEmissiveAnimUVType);
 

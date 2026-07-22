@@ -26,7 +26,7 @@ Shader "AleToonURP/Lit"
 
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 基础贴图 BaseMap ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
         //基础纹理
-        _BaseMap ("BaseMap", 2D) = "white" {} //基础贴图
+        [NoScaleOffset] _BaseMap ("BaseMap", 2D) = "white" {} //基础贴图 ●不使用平铺/偏移（Tiling/Offset），各Pass统一按原始UV采样
         [HDR]_BaseColor ("BaseMap Color", Color) = (1, 1, 1, 1) //基础贴图 颜色
 
         [HDR]_ColorBaseMapBlendColor ("MainTex ColorBlend", Color) = (1, 1, 1, 1) //基础贴图 混合颜色
@@ -214,8 +214,6 @@ Shader "AleToonURP/Lit"
             }
 
         HLSLPROGRAM
-            #pragma prefer_hlslcc gles
-            #pragma exclude_renderers d3d11_9x
             #pragma target 2.0
 
             //--------------------------------------
@@ -225,10 +223,8 @@ Shader "AleToonURP/Lit"
 
             // -------------------------------------
             // Material Keywords
-            #pragma shader_feature_local _NORMALMAP
             #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
             #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
 
             // -------------------------------------
             // Universal Pipeline keywords
@@ -236,21 +232,12 @@ Shader "AleToonURP/Lit"
             #pragma multi_compile _ _ADDITIONAL_LIGHTS
             #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
-            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-            #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-            #pragma multi_compile_fragment _ _LIGHT_LAYERS
-            #pragma multi_compile_fragment _ _LIGHT_COOKIES
+            //以下 URP 功能本 Shader 从不消费，删去以免变体爆炸：
+            //SSAO / DBuffer解算 / 反射探针混合与盒投影 / 光照层 / 光照Cookie / 烘焙光照贴图 / DEBUG_DISPLAY
 
             // -------------------------------------
             // Unity defined keywords
-            #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
-            #pragma multi_compile _ SHADOWS_SHADOWMASK
-            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-            #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile_fog
-            #pragma multi_compile_fragment _ DEBUG_DISPLAY
         
             //关键词 表面类型
             #pragma shader_feature_local _SURFACETYPE_OPAQUE _SURFACETYPE_TRANSPARENT

@@ -118,7 +118,7 @@
         half4 colorOutlineLightBlend = _ColorOutlineColor * IN.color;
 
         //基础贴图颜色混合
-        half4 colorBaseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(IN.uv0, _BaseMap)) * _BaseColor;
+        half4 colorBaseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv0) * _BaseColor;
         half4 colorBaseMapBlend = lerp(colorOutlineLightBlend, colorOutlineLightBlend * colorBaseMap, _FloatOutlineBaseMapBlendIntensity);
         colorFinal = lerp(colorOutlineLightBlend, colorBaseMapBlend, _ToggleOutlineBaseMapBlend); //开关 混合基础色
 
